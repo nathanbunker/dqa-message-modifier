@@ -1,4 +1,4 @@
-package org.openimmunizationsoftware.dqa.codebase.util;
+package org.immregistries.dqa.message_modifier;
 
 public class ModifierService {
   public ModifierService()

@@ -1,4 +1,7 @@
-package org.openimmunizationsoftware.dqa.codebase.util;
+package org.immregistries.dqa.message_modifier;
+
+import org.immregistries.dqa.message_modifier.ModifierService;
+import org.immregistries.dqa.message_modifier.ModifyRequest;
 
 import junit.framework.TestCase;
 
