@@ -1,3 +1,7 @@
+options {
+USER_CHAR_STREAM = true;
+}
+
 PARSER_BEGIN(NewScript)
 /** New line translator. */
 public class NewScript {

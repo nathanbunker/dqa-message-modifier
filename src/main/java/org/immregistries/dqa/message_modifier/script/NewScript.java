@@ -38,7 +38,7 @@ public class NewScript/*@bgen(jjtree)*/implements NewScriptTreeConstants, NewScr
         }
   }
 
-  static final public SimpleNode ExpressionList() throws ParseException {/*@bgen(jjtree) EXPRESSIONS */
+  final public SimpleNode ExpressionList() throws ParseException {/*@bgen(jjtree) EXPRESSIONS */
   SimpleNode jjtn000 = new SimpleNode(JJTEXPRESSIONS);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);String s;
@@ -113,7 +113,7 @@ if (jjtc000) {
     throw new Error("Missing return statement in function");
   }
 
-  static final public String command() throws ParseException {/*@bgen(jjtree) COMMAND */
+  final public String command() throws ParseException {/*@bgen(jjtree) COMMAND */
   SimpleNode jjtn000 = new SimpleNode(JJTCOMMAND);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);String string;
@@ -196,7 +196,7 @@ if (jjtc000) {
     throw new Error("Missing return statement in function");
   }
 
-  static final public String useCommand() throws ParseException {/*@bgen(jjtree) USE_COMMAND */
+  final public String useCommand() throws ParseException {/*@bgen(jjtree) USE_COMMAND */
     SimpleNode jjtn000 = new SimpleNode(JJTUSE_COMMAND);
     boolean jjtc000 = true;
     jjtree.openNodeScope(jjtn000);Token token;
@@ -219,7 +219,7 @@ if (jjtc000) {
     throw new Error("Missing return statement in function");
   }
 
-  static final public String assignment() throws ParseException {/*@bgen(jjtree) ASSIGNMENT */
+  final public String assignment() throws ParseException {/*@bgen(jjtree) ASSIGNMENT */
     SimpleNode jjtn000 = new SimpleNode(JJTASSIGNMENT);
     boolean jjtc000 = true;
     jjtree.openNodeScope(jjtn000);String ref;
@@ -255,7 +255,7 @@ if (jjtc000) {
     throw new Error("Missing return statement in function");
   }
 
-  static final public String ifCommand() throws ParseException {/*@bgen(jjtree) IF */
+  final public String ifCommand() throws ParseException {/*@bgen(jjtree) IF */
     SimpleNode jjtn000 = new SimpleNode(JJTIF);
     boolean jjtc000 = true;
     jjtree.openNodeScope(jjtn000);String s, comp, func, ref;
@@ -308,7 +308,7 @@ if (jjtc000) {
     throw new Error("Missing return statement in function");
   }
 
-  static final public String comparison() throws ParseException {/*@bgen(jjtree) COMP */
+  final public String comparison() throws ParseException {/*@bgen(jjtree) COMP */
     SimpleNode jjtn000 = new SimpleNode(JJTCOMP);
     boolean jjtc000 = true;
     jjtree.openNodeScope(jjtn000);Token token;
@@ -346,7 +346,7 @@ if (jjtc000) {
     throw new Error("Missing return statement in function");
   }
 
-  static final public String forSelector() throws ParseException {/*@bgen(jjtree) FOR */
+  final public String forSelector() throws ParseException {/*@bgen(jjtree) FOR */
     SimpleNode jjtn000 = new SimpleNode(JJTFOR);
     boolean jjtc000 = true;
     jjtree.openNodeScope(jjtn000);String ref;
@@ -378,7 +378,7 @@ if (jjtc000) {
     throw new Error("Missing return statement in function");
   }
 
-  static final public String referencePointer() throws ParseException {/*@bgen(jjtree) REF_POINTER */
+  final public String referencePointer() throws ParseException {/*@bgen(jjtree) REF_POINTER */
     SimpleNode jjtn000 = new SimpleNode(JJTREF_POINTER);
     boolean jjtc000 = true;
     jjtree.openNodeScope(jjtn000);String s;
@@ -410,7 +410,7 @@ if (jjtc000) {
     throw new Error("Missing return statement in function");
   }
 
-  static final public String reference() throws ParseException {/*@bgen(jjtree) REFERENCE */
+  final public String reference() throws ParseException {/*@bgen(jjtree) REFERENCE */
   SimpleNode jjtn000 = new SimpleNode(JJTREFERENCE);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);String s, ref, id, field, sub;
@@ -452,7 +452,7 @@ if (jjtc000) {
     throw new Error("Missing return statement in function");
   }
 
-  static final public String refContext() throws ParseException {/*@bgen(jjtree) REF_CONTEXT */
+  final public String refContext() throws ParseException {/*@bgen(jjtree) REF_CONTEXT */
     SimpleNode jjtn000 = new SimpleNode(JJTREF_CONTEXT);
     boolean jjtc000 = true;
     jjtree.openNodeScope(jjtn000);String id, s;
@@ -485,7 +485,7 @@ if (jjtc000) {
     throw new Error("Missing return statement in function");
   }
 
-  static final public String refId() throws ParseException {/*@bgen(jjtree) REF_ID */
+  final public String refId() throws ParseException {/*@bgen(jjtree) REF_ID */
 SimpleNode jjtn000 = new SimpleNode(JJTREF_ID);
 boolean jjtc000 = true;
 jjtree.openNodeScope(jjtn000);String id, field, sub, s;
@@ -539,7 +539,7 @@ if (jjtc000) {
     throw new Error("Missing return statement in function");
   }
 
-  static final public String functionCall() throws ParseException {/*@bgen(jjtree) FUNCTION */
+  final public String functionCall() throws ParseException {/*@bgen(jjtree) FUNCTION */
   SimpleNode jjtn000 = new SimpleNode(JJTFUNCTION);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);Token name;
@@ -575,7 +575,7 @@ if (jjtc000) {
     throw new Error("Missing return statement in function");
   }
 
-  static final public String arguments() throws ParseException {/*@bgen(jjtree) ARGS */
+  final public String arguments() throws ParseException {/*@bgen(jjtree) ARGS */
     SimpleNode jjtn000 = new SimpleNode(JJTARGS);
     boolean jjtc000 = true;
     jjtree.openNodeScope(jjtn000);Token arg_name;
@@ -619,7 +619,7 @@ if (jjtc000) {
     throw new Error("Missing return statement in function");
   }
 
-  static final public String statement() throws ParseException {/*@bgen(jjtree) STATEMENT */
+  final public String statement() throws ParseException {/*@bgen(jjtree) STATEMENT */
   SimpleNode jjtn000 = new SimpleNode(JJTSTATEMENT);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);Token token;
@@ -674,7 +674,7 @@ if (jjtc000) {
     throw new Error("Missing return statement in function");
   }
 
-  static final public String segId() throws ParseException {/*@bgen(jjtree) SEG_ID */
+  final public String segId() throws ParseException {/*@bgen(jjtree) SEG_ID */
   SimpleNode jjtn000 = new SimpleNode(JJTSEG_ID);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);Token id;
@@ -716,7 +716,7 @@ if (jjtc000) {
     throw new Error("Missing return statement in function");
   }
 
-  static final public String fieldNum() throws ParseException {/*@bgen(jjtree) FIELD_NUM */
+  final public String fieldNum() throws ParseException {/*@bgen(jjtree) FIELD_NUM */
   SimpleNode jjtn000 = new SimpleNode(JJTFIELD_NUM);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);Token num;
@@ -759,7 +759,7 @@ if (jjtc000) {
     throw new Error("Missing return statement in function");
   }
 
-  static final public String subNum() throws ParseException {/*@bgen(jjtree) SUB_NUM */
+  final public String subNum() throws ParseException {/*@bgen(jjtree) SUB_NUM */
   SimpleNode jjtn000 = new SimpleNode(JJTSUB_NUM);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);Token num;
@@ -802,7 +802,7 @@ if (jjtc000) {
     throw new Error("Missing return statement in function");
   }
 
-  static final public String repetitionSelector() throws ParseException {/*@bgen(jjtree) REPETION_SELECTOR */
+  final public String repetitionSelector() throws ParseException {/*@bgen(jjtree) REPETION_SELECTOR */
     SimpleNode jjtn000 = new SimpleNode(JJTREPETION_SELECTOR);
     boolean jjtc000 = true;
     jjtree.openNodeScope(jjtn000);Token num;
@@ -823,7 +823,7 @@ if (jjtc000) {
     throw new Error("Missing return statement in function");
   }
 
-  static final public String comments() throws ParseException {/*@bgen(jjtree) COMMENTS */
+  final public String comments() throws ParseException {/*@bgen(jjtree) COMMENTS */
     SimpleNode jjtn000 = new SimpleNode(JJTCOMMENTS);
     boolean jjtc000 = true;
     jjtree.openNodeScope(jjtn000);String s="";
@@ -840,17 +840,16 @@ if (jjtc000) {
     throw new Error("Missing return statement in function");
   }
 
-  static private boolean jj_initialized_once = false;
   /** Generated Token Manager. */
-  static public NewScriptTokenManager token_source;
-  static SimpleCharStream jj_input_stream;
+  public NewScriptTokenManager token_source;
+  SimpleCharStream jj_input_stream;
   /** Current token. */
-  static public Token token;
+  public Token token;
   /** Next token. */
-  static public Token jj_nt;
-  static private int jj_ntk;
-  static private int jj_gen;
-  static final private int[] jj_la1 = new int[17];
+  public Token jj_nt;
+  private int jj_ntk;
+  private int jj_gen;
+  final private int[] jj_la1 = new int[17];
   static private int[] jj_la1_0;
   static {
       jj_la1_init_0();
@@ -865,13 +864,6 @@ if (jjtc000) {
   }
   /** Constructor with InputStream and supplied encoding */
   public NewScript(java.io.InputStream stream, String encoding) {
-    if (jj_initialized_once) {
-      System.out.println("ERROR: Second call to constructor of static parser.  ");
-      System.out.println("       You must either use ReInit() or set the JavaCC option STATIC to false");
-      System.out.println("       during parser generation.");
-      throw new Error();
-    }
-    jj_initialized_once = true;
     try { jj_input_stream = new SimpleCharStream(stream, encoding, 1, 1); } catch(java.io.UnsupportedEncodingException e) { throw new RuntimeException(e); }
     token_source = new NewScriptTokenManager(jj_input_stream);
     token = new Token();
@@ -881,11 +873,11 @@ if (jjtc000) {
   }
 
   /** Reinitialise. */
-  static public void ReInit(java.io.InputStream stream) {
+  public void ReInit(java.io.InputStream stream) {
      ReInit(stream, null);
   }
   /** Reinitialise. */
-  static public void ReInit(java.io.InputStream stream, String encoding) {
+  public void ReInit(java.io.InputStream stream, String encoding) {
     try { jj_input_stream.ReInit(stream, encoding, 1, 1); } catch(java.io.UnsupportedEncodingException e) { throw new RuntimeException(e); }
     token_source.ReInit(jj_input_stream);
     token = new Token();
@@ -897,13 +889,6 @@ if (jjtc000) {
 
   /** Constructor. */
   public NewScript(java.io.Reader stream) {
-    if (jj_initialized_once) {
-      System.out.println("ERROR: Second call to constructor of static parser. ");
-      System.out.println("       You must either use ReInit() or set the JavaCC option STATIC to false");
-      System.out.println("       during parser generation.");
-      throw new Error();
-    }
-    jj_initialized_once = true;
     jj_input_stream = new SimpleCharStream(stream, 1, 1);
     token_source = new NewScriptTokenManager(jj_input_stream);
     token = new Token();
@@ -913,7 +898,7 @@ if (jjtc000) {
   }
 
   /** Reinitialise. */
-  static public void ReInit(java.io.Reader stream) {
+  public void ReInit(java.io.Reader stream) {
     jj_input_stream.ReInit(stream, 1, 1);
     token_source.ReInit(jj_input_stream);
     token = new Token();
@@ -925,13 +910,6 @@ if (jjtc000) {
 
   /** Constructor with generated Token Manager. */
   public NewScript(NewScriptTokenManager tm) {
-    if (jj_initialized_once) {
-      System.out.println("ERROR: Second call to constructor of static parser. ");
-      System.out.println("       You must either use ReInit() or set the JavaCC option STATIC to false");
-      System.out.println("       during parser generation.");
-      throw new Error();
-    }
-    jj_initialized_once = true;
     token_source = tm;
     token = new Token();
     jj_ntk = -1;
@@ -949,7 +927,7 @@ if (jjtc000) {
     for (int i = 0; i < 17; i++) jj_la1[i] = -1;
   }
 
-  static private Token jj_consume_token(int kind) throws ParseException {
+  private Token jj_consume_token(int kind) throws ParseException {
     Token oldToken;
     if ((oldToken = token).next != null) token = token.next;
     else token = token.next = token_source.getNextToken();
@@ -965,7 +943,7 @@ if (jjtc000) {
 
 
 /** Get the next Token. */
-  static final public Token getNextToken() {
+  final public Token getNextToken() {
     if (token.next != null) token = token.next;
     else token = token.next = token_source.getNextToken();
     jj_ntk = -1;
@@ -974,7 +952,7 @@ if (jjtc000) {
   }
 
 /** Get the specific Token. */
-  static final public Token getToken(int index) {
+  final public Token getToken(int index) {
     Token t = token;
     for (int i = 0; i < index; i++) {
       if (t.next != null) t = t.next;
@@ -983,19 +961,19 @@ if (jjtc000) {
     return t;
   }
 
-  static private int jj_ntk_f() {
+  private int jj_ntk_f() {
     if ((jj_nt=token.next) == null)
       return (jj_ntk = (token.next=token_source.getNextToken()).kind);
     else
       return (jj_ntk = jj_nt.kind);
   }
 
-  static private java.util.List<int[]> jj_expentries = new java.util.ArrayList<int[]>();
-  static private int[] jj_expentry;
-  static private int jj_kind = -1;
+  private java.util.List<int[]> jj_expentries = new java.util.ArrayList<int[]>();
+  private int[] jj_expentry;
+  private int jj_kind = -1;
 
   /** Generate ParseException. */
-  static public ParseException generateParseException() {
+  public ParseException generateParseException() {
     jj_expentries.clear();
     boolean[] la1tokens = new boolean[31];
     if (jj_kind >= 0) {
@@ -1026,11 +1004,11 @@ if (jjtc000) {
   }
 
   /** Enable tracing. */
-  static final public void enable_tracing() {
+  final public void enable_tracing() {
   }
 
   /** Disable tracing. */
-  static final public void disable_tracing() {
+  final public void disable_tracing() {
   }
 
 }
