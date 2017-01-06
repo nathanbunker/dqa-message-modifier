@@ -7,39 +7,39 @@ import java.util.Map;
 
 import org.immregistries.dqa.message_modifier.ModifyRequest;
 
-
 public class SetCommand extends Command {
   private ReferenceParsed targetReference = null;
   private String stringValue = "";
   private ReferenceParsed sourceReference = null;
-  
+
   @Override
   public void doTransform(ModifyRequest modifyRequest) throws IOException {
     String resultText = modifyRequest.getMessageOriginal();
-      
-      int count = 1;
+
+    int count = 1;
+    if (targetReference.isAll()) {
+      count = countSegments(resultText, targetReference);
+    }
+    for (int i = 1; i <= count; i++) {
       if (targetReference.isAll()) {
-        count = countSegments(resultText, targetReference);
+        targetReference.segmentRepeat = i;
       }
-      for (int i = 1; i <= count; i++) {
-        if (targetReference.isAll()) {
-          targetReference.segmentRepeat = i;
-        }
-        
-        String value;
-        if (sourceReference != null) {
-          value = getValueFromHL7(resultText, sourceReference, modifyRequest);
-        } else {
-          value = stringValue;
-        }
-        
-        resultText = setValueInHL7(value, resultText, targetReference, modifyRequest);
+
+      String value;
+      if (sourceReference != null) {
+        value = getValueFromHL7(resultText, sourceReference, modifyRequest);
+      } else {
+        value = stringValue;
       }
+
+      resultText = setValueInHL7(value, resultText, targetReference, modifyRequest);
+    }
     modifyRequest.setMessageFinal(resultText);
-    
+
   }
-  
-  private String setValueInHL7(String newValue, String resultText, ReferenceParsed t, ModifyRequest modifyRequest) throws IOException {
+
+  private String setValueInHL7(String newValue, String resultText, ReferenceParsed t, ModifyRequest modifyRequest)
+      throws IOException {
 
     BufferedReader inResult = new BufferedReader(new StringReader(resultText));
     boolean foundBoundStart = false;
@@ -80,7 +80,8 @@ public class SetCommand extends Command {
           repeatCount++;
           if (t.segmentRepeat == repeatCount) {
             int pos = lineResult.indexOf("|");
-            int count = (lineResult.startsWith("MSH|") || lineResult.startsWith("FHS|") || lineResult.startsWith("BHS|")) ? 2 : 1;
+            int count = (lineResult.startsWith("MSH|") || lineResult.startsWith("FHS|")
+                || lineResult.startsWith("BHS|")) ? 2 : 1;
             while (pos != -1 && count < t.field) {
               pos = lineResult.indexOf("|", pos + 1);
               count++;
@@ -225,7 +226,6 @@ public class SetCommand extends Command {
     return resultText;
   }
 
-  
   public int countSegments(String resultText, ReferenceParsed t) throws IOException {
     BufferedReader inResult = new BufferedReader(new StringReader(resultText));
     String lineResult;
@@ -239,43 +239,42 @@ public class SetCommand extends Command {
     return count;
   }
 
-
-
-
-  
   public ReferenceParsed getTargetReference() {
     return targetReference;
   }
+
   public void setTargetReference(ReferenceParsed targetReference) {
     this.targetReference = targetReference;
   }
+
   public String getStringValue() {
     return stringValue;
   }
+
   public void setStringValue(String stringValue) {
     this.stringValue = stringValue;
   }
+
   public ReferenceParsed getSourceReference() {
     return sourceReference;
   }
+
   public void setSourceReference(ReferenceParsed sourceReference) {
     this.sourceReference = sourceReference;
   }
 
-  protected static String getValueFromHL7(final String resultText, ReferenceParsed t, ModifyRequest modifyRequest) throws IOException {
+  protected static String getValueFromHL7(final String resultText, ReferenceParsed t, ModifyRequest modifyRequest)
+      throws IOException {
     BufferedReader inResult;
     {
-      if (t.testCaseId != null) 
-      {
+      if (t.testCaseId != null) {
         Map<String, String> messageMap = modifyRequest.getMessageMap();
-        if (messageMap == null || !messageMap.containsKey(t.testCaseId))
-        {
+        if (messageMap == null || !messageMap.containsKey(t.testCaseId)) {
           return "";
         }
         inResult = new BufferedReader(new StringReader(messageMap.get(t.testCaseId)));
-      }
-      else {
-      inResult = new BufferedReader(new StringReader(resultText));
+      } else {
+        inResult = new BufferedReader(new StringReader(resultText));
       }
     }
     boolean foundBoundStart = false;
@@ -313,7 +312,8 @@ public class SetCommand extends Command {
           repeatCount++;
           if (t.segmentRepeat == repeatCount) {
             int pos = lineResult.indexOf("|");
-            int count = (lineResult.startsWith("MSH|") || lineResult.startsWith("FHS|") || lineResult.startsWith("BHS|")) ? 2 : 1;
+            int count = (lineResult.startsWith("MSH|") || lineResult.startsWith("FHS|")
+                || lineResult.startsWith("BHS|")) ? 2 : 1;
             while (pos != -1 && count < t.field) {
               pos = lineResult.indexOf("|", pos + 1);
               count++;
@@ -411,5 +411,4 @@ public class SetCommand extends Command {
     return "";
   }
 
-  
 }
