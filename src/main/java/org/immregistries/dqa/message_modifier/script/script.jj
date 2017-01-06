@@ -2,11 +2,13 @@
 /*@egen*/options {
 USER_CHAR_STREAM = true;
 }
-
 PARSER_BEGIN(NewScript)
+<<<<<<< HEAD
 import org.immregistries.dqa.message_modifier.script.*;
 
 
+=======
+>>>>>>> 665765c155c81247756ea5b3d1f986a4fecb52b1
 /** New line translator. */
 public class NewScript/*@bgen(jjtree)*/implements NewScriptTreeConstants/*@egen*/ {/*@bgen(jjtree)*/
   protected static JJTNewScriptState jjtree = new JJTNewScriptState();
@@ -31,11 +33,17 @@ public class NewScript/*@bgen(jjtree)*/implements NewScriptTreeConstants/*@egen*
         return null;
       }
       switch(this.id) {
+<<<<<<< HEAD
 
         case JJTEXPRESSIONS:
           System.out.println("Expressions");
           return null;
 
+=======
+        case JJTEXPRESSIONS:
+          System.out.println("Expressions");
+          return null;
+>>>>>>> 665765c155c81247756ea5b3d1f986a4fecb52b1
         default:
           System.out.println("default");
           return null;
@@ -726,7 +734,10 @@ String arguments()      :
   }
 /*@egen*/
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 665765c155c81247756ea5b3d1f986a4fecb52b1
 void statement()           :
 {/*@bgen(jjtree) STATEMENT */
   SimpleNode jjtn000 = new SimpleNode(JJTSTATEMENT);

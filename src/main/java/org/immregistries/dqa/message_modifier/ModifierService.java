@@ -1,9 +1,11 @@
 package org.immregistries.dqa.message_modifier;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.immregistries.dqa.message_modifier.script.CharStream;
 import org.immregistries.dqa.message_modifier.script.NewScript;
 import org.immregistries.dqa.message_modifier.script.SimpleNode;
 import org.immregistries.dqa.message_modifier.transform.Command;
@@ -16,15 +18,6 @@ public class ModifierService {
 
   public void modify(ModifyRequest modifyRequest) {
     String messageText = modifyRequest.getMessageOriginal();
-    // NewScript newScript = new NewScript(new
-    // ByteArrayInputStream(modifyRequest.getModificationScript().getBytes("UTF-8")));
-    // Token token;
-    // while ((token = newScript.getNextToken()) != null)
-    // {
-    // System.out.println("--> " + token.getValue());
-    // }
-    //
-    // Need to
 
     List<Command> commandList = new ArrayList<>();
     try {
