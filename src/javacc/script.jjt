@@ -1,47 +1,63 @@
 PARSER_BEGIN(NewScript)
+
 /** New line translator. */
 public class NewScript {
+
   public static class CustomNode extends SimpleNode {
+
     CustomNode(int i){
       super(i);
     }
     public int getChildrenCount() {
       return this.children==null?0:children.length;
     }
+
     public String getName() {
       return NewScriptTreeConstants.jjtNodeName[this.id];
     }
+
     public Object eval(Object o) {
       if(o == null) {
         return null;
       }
       switch(this.id) {
+
+        case JJTEXPRESSIONS:
+          System.out.println("Expressions");
+          return null;
+
         default:
           System.out.println("default");
           return null;
       }
     }
   }
+
   /** Main entry point. */
   public static void main(String args[]) throws ParseException {
     NewScript parser = new NewScript(System.in);
     try {
           SimpleNode n = parser.ExpressionList();
-          n.dump("");
+          //n.dump("");
+          n.testPrint();
         } catch (Exception e) {
           System.out.println("Oops.");
           System.out.println(e.getMessage());
           e.printStackTrace();
         }
   }
+
 }
+
 PARSER_END(NewScript)
+
 SKIP :
 {
 " "
 | "\t"
 | "\r"
 }
+
 TOKEN :
 {
   < IF: "if" >
@@ -101,6 +117,7 @@ SimpleNode ExpressionList() #EXPRESSIONS :
       return jjtThis;
     }
 }
+
 String command() #COMMAND :
 {
   String string;
@@ -124,7 +141,7 @@ String command() #COMMAND :
       (
           string = assignment()
           {
-              s += string;
+              s += string;  
           }
           | string = functionCall()
             {
@@ -138,6 +155,7 @@ String command() #COMMAND :
     return s;
   }
 }
+
 String useCommand() #USE_COMMAND :
 {
     Token token;
@@ -154,6 +172,7 @@ String useCommand() #USE_COMMAND :
         return s;
       }
 }
+
 String assignment() #ASSIGNMENT :
 {
     String ref;
@@ -163,12 +182,13 @@ String assignment() #ASSIGNMENT :
 {
     ref = reference()
     "="
-    sta = statement()
+    statement()
     {
-        s = ref + "=" + sta;
+        s = ref + "= statement";
         return s;
     }
 }
+
 String ifCommand() #IF:
 {
     String s, comp, func, ref;
@@ -193,6 +213,7 @@ String ifCommand() #IF:
         return s;
     }
 }
+
 String comparison() #COMP:
 {
     Token token;
@@ -208,6 +229,7 @@ String comparison() #COMP:
         return token.image;
     }
 }
+
 String forSelector() #FOR:
 {
     String ref;
@@ -219,6 +241,7 @@ String forSelector() #FOR:
         return ref;
     }
 }
+
 String referencePointer() #REF_POINTER:
 {
     String s;
@@ -229,9 +252,10 @@ String referencePointer() #REF_POINTER:
         return s;
     }
 }
+
 String reference() #REFERENCE:
 {
-  String s, ref, id, field, sub;
+  String s, ref, id;
 }
 {
   id = refId()
@@ -248,6 +272,7 @@ String reference() #REFERENCE:
         return s;
   }
 }
+
 String refContext() #REF_CONTEXT:
 {
     String id, s;
@@ -262,6 +287,7 @@ String refContext() #REF_CONTEXT:
         }
     )
 }
+
 String refId() #REF_ID:
 {
 String id, field, sub, s;
@@ -289,6 +315,7 @@ String id, field, sub, s;
       return s;
   }
 }
+
 String functionCall() #FUNCTION:
 {
   Token name;
@@ -304,6 +331,7 @@ String functionCall() #FUNCTION:
       return name.image+"("+s+")";
     }
 }
+
 String arguments() #ARGS:
 {
     Token arg_name;
@@ -327,27 +355,25 @@ String arguments() #ARGS:
     return s;
   }
 }
-String statement() #STATEMENT:
+
+void statement() #STATEMENT:
 {
   Token token;
-  String s;
 }
 {
   token = <STRING>
     {
-      return token.image;
+      jjtThis.value = token.image;
     }
   |
-  s = referencePointer()
-      {
-        return s;
-      }
+    referencePointer()
   |
   token=<PRESET_VALUE>
     {
-      return token.image;
+      jjtThis.value = token.image;
     }
 }
+
 String segId() #SEG_ID:
 {
   Token id;
@@ -355,6 +381,9 @@ String segId() #SEG_ID:
 }
 {
   id = <ID>
+  {
+    jjtThis.value = id.image;
+  }
   (
         s = repetitionSelector()
     )?
@@ -363,6 +392,7 @@ String segId() #SEG_ID:
         return s;
     }
 }
+
 String fieldNum() #FIELD_NUM:
 {
   Token num;
@@ -372,6 +402,7 @@ String fieldNum() #FIELD_NUM:
   num=<NUM>
     {
         s = (String) num.image;
+        jjtThis.value = num.image;
     }
     (
            rep = repetitionSelector()
@@ -383,6 +414,7 @@ String fieldNum() #FIELD_NUM:
         return s;
     }
 }
+
 String subNum() #SUB_NUM:
 {
   Token num;
@@ -392,6 +424,7 @@ String subNum() #SUB_NUM:
   num=<NUM>
   {
         s = (String) num.image;
+        jjtThis.value = num.image;
     }
   (
       rep = repetitionSelector()
@@ -403,6 +436,7 @@ String subNum() #SUB_NUM:
       return s;
     }
 }
+
 String repetitionSelector() #REPETION_SELECTOR:
 {
     Token num;
@@ -417,6 +451,7 @@ String repetitionSelector() #REPETION_SELECTOR:
         return s;
     }
 }
+
 String comments() #COMMENTS:
 {
     String s="";
