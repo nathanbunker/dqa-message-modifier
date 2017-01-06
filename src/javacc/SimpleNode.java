@@ -18,6 +18,19 @@ class SimpleNode implements Node {
     parser = p;
   }
 
+  public void testPrint() {
+    if (children != null) {
+      for (int i = 0; i < children.length; ++i) {
+        SimpleNode n = (SimpleNode)children[i];
+        System.out.println("Node : " + n.toString());
+        System.out.println("Value : [" + n.value + "]");
+        if (n != null) {
+          n.testPrint();
+        }
+      }
+    }
+  }
+
   public void jjtOpen() {
   }
 
@@ -68,6 +81,7 @@ class SimpleNode implements Node {
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
         SimpleNode n = (SimpleNode)children[i];
+        System.out.println("[" + n.value + "]");
         if (n != null) {
           n.dump(prefix + " ");
         }
@@ -80,4 +94,4 @@ class SimpleNode implements Node {
   }
 }
 
-/* JavaCC - OriginalChecksum=063aa926f011baf739f17c9aebe9c5bb (do not edit this line) */
+/* JavaCC - OriginalChecksum=c92004f860c88d391c641c1b89b5f8b1 (do not edit this line) */
