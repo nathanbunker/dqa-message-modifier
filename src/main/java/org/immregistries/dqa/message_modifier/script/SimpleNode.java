@@ -47,11 +47,11 @@ class SimpleNode implements Node {
               		ReferenceParsed reference = new ReferenceParsed();
               		SimpleNode refId = (SimpleNode) child.children[0].jjtGetChild(0);
                     SimpleNode segId = (SimpleNode) refId.children[0];
-                    reference.setSegment((String) segId.value);
+                    reference.setSegment((String) segId.jjtGetValue());
                     SimpleNode fieldNum = (SimpleNode) refId.children[1];
-                    reference.setField((int) fieldNum.value);
+                    reference.setField(Integer.parseInt((String)fieldNum.jjtGetValue()));
                     SimpleNode statement = (SimpleNode) child.children[1];
-                    command.setStringValue((String) statement.value);
+                    command.setStringValue((String) statement.jjtGetValue());
                     command.setTargetReference(reference);
               		break;
               		

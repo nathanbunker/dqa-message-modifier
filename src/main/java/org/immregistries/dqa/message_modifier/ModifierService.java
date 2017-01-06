@@ -31,8 +31,12 @@ public class ModifierService {
       NewScript parser = new NewScript(
           new ByteArrayInputStream(modifyRequest.getModificationScript().getBytes("UTF-8")));
       SimpleNode n = parser.ExpressionList();
+      //n.testPrint();
       SetCommand setCommand = n.createSetCommand();
       commandList.add(setCommand);
+      System.out.println("String Value : " + setCommand.getStringValue());
+      System.out.println("Field : " + setCommand.getTargetReference().getField());
+      System.out.println("Segment : " + setCommand.getTargetReference().getSegment());
       // Need to generate a list of commands
 
       for (Command command : commandList) {
@@ -43,7 +47,7 @@ public class ModifierService {
     } catch (Exception ioe) {
       ioe.printStackTrace();
     }
-    modifyRequest.setMessageFinal(messageText);
+   // modifyRequest.setMessageFinal(messageText);
   }
 
 }
