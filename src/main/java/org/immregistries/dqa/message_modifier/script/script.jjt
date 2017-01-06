@@ -1,7 +1,6 @@
 options {
 USER_CHAR_STREAM = true;
 }
-
 PARSER_BEGIN(NewScript)
 /** New line translator. */
 public class NewScript {
@@ -20,6 +19,9 @@ public class NewScript {
         return null;
       }
       switch(this.id) {
+        case JJTEXPRESSIONS:
+          System.out.println("Expressions");
+          return null;
         default:
           System.out.println("default");
           return null;
@@ -31,7 +33,8 @@ public class NewScript {
     NewScript parser = new NewScript(System.in);
     try {
           SimpleNode n = parser.ExpressionList();
-          n.dump("");
+          //n.dump("");
+          n.testPrint();
         } catch (Exception e) {
           System.out.println("Oops.");
           System.out.println(e.getMessage());
@@ -128,7 +131,7 @@ String command() #COMMAND :
       (
           string = assignment()
           {
-              s += string;
+              s += string;  
           }
           | string = functionCall()
             {
@@ -167,9 +170,9 @@ String assignment() #ASSIGNMENT :
 {
     ref = reference()
     "="
-    sta = statement()
+    statement()
     {
-        s = ref + "=" + sta;
+        s = ref + "= statement";
         return s;
     }
 }
@@ -235,7 +238,7 @@ String referencePointer() #REF_POINTER:
 }
 String reference() #REFERENCE:
 {
-  String s, ref, id, field, sub;
+  String s, ref, id;
 }
 {
   id = refId()
@@ -331,25 +334,21 @@ String arguments() #ARGS:
     return s;
   }
 }
-String statement() #STATEMENT:
+void statement() #STATEMENT:
 {
   Token token;
-  String s;
 }
 {
   token = <STRING>
     {
-      return token.image;
+      jjtThis.value = token.image;
     }
   |
-  s = referencePointer()
-      {
-        return s;
-      }
+    referencePointer()
   |
   token=<PRESET_VALUE>
     {
-      return token.image;
+      jjtThis.value = token.image;
     }
 }
 String segId() #SEG_ID:
@@ -359,6 +358,9 @@ String segId() #SEG_ID:
 }
 {
   id = <ID>
+  {
+    jjtThis.value = id.image;
+  }
   (
         s = repetitionSelector()
     )?
@@ -376,6 +378,7 @@ String fieldNum() #FIELD_NUM:
   num=<NUM>
     {
         s = (String) num.image;
+        jjtThis.value = num.image;
     }
     (
            rep = repetitionSelector()
@@ -396,6 +399,7 @@ String subNum() #SUB_NUM:
   num=<NUM>
   {
         s = (String) num.image;
+        jjtThis.value = num.image;
     }
   (
       rep = repetitionSelector()
