@@ -9,7 +9,16 @@ public class ModifyRequest {
   private String modificationScript = "";
   private Map<String, String> messageMap = new HashMap<>();
   private Exception exception = null;
+  private String segmentSeparator = "\r";
   private ModifyRequestStatus modifyRequestStatus = ModifyRequestStatus.INITIALZED;
+  
+  public String getSegmentSeparator() {
+    return segmentSeparator;
+  }
+
+  public void setSegmentSeparator(String segmentSeparator) {
+    this.segmentSeparator = segmentSeparator;
+  }
 
   public String getModificationScript() {
     return modificationScript;
@@ -47,7 +56,7 @@ public class ModifyRequest {
     return messageFinal;
   }
 
-  protected void setMessageFinal(String messageFinal) {
+  public void setMessageFinal(String messageFinal) {
     this.messageFinal = messageFinal;
   }
 

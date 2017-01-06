@@ -17,7 +17,6 @@ public class ReferenceParsed {
   protected int segmentRepeat = 1;
   protected int fieldRepeat = 1;
   protected boolean fieldRepeatSet = false;
-  protected String value;
   protected int subfield;
   protected boolean subfieldSet = false;
   protected int subsubfield;
@@ -25,15 +24,6 @@ public class ReferenceParsed {
   protected int boundRepeat = 1;
   protected boolean all = false;
   protected String testCaseId = null;
-  protected ReferenceParsed valueTransform = null;
-
-  public ReferenceParsed getValueTransform() {
-    return valueTransform;
-  }
-
-  public void setValueTransform(ReferenceParsed valueTransform) {
-    this.valueTransform = valueTransform;
-  }
 
   public String getSegment() {
     return segment;
@@ -73,14 +63,6 @@ public class ReferenceParsed {
 
   public void setFieldRepeatSet(boolean fieldRepeatSet) {
     this.fieldRepeatSet = fieldRepeatSet;
-  }
-
-  public String getValue() {
-    return value;
-  }
-
-  public void setValue(String value) {
-    this.value = value;
   }
 
   public int getSubfield() {
