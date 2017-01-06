@@ -24,4 +24,6 @@ public class Transform {
     protected boolean all = false;
     protected String testCaseId = null;
     protected Transform valueTransform = null;
+    
+    
 }
