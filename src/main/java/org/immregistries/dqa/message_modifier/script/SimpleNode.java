@@ -49,9 +49,11 @@ class SimpleNode implements Node {
                     SimpleNode segId = (SimpleNode) refId.children[0];
                     reference.setSegment((String) segId.jjtGetValue());
                     SimpleNode fieldNum = (SimpleNode) refId.children[1];
-                    reference.setField(Integer.parseInt((String)fieldNum.jjtGetValue()));
+                    reference.setField(Integer.parseInt((String) fieldNum.jjtGetValue()));
                     SimpleNode statement = (SimpleNode) child.children[1];
-                    command.setStringValue((String) statement.jjtGetValue());
+                    String value = (String) statement.jjtGetValue();
+                    value = value.replace("\"", "");
+                    command.setStringValue(value);
                     command.setTargetReference(reference);
               		break;
               		
