@@ -1,46 +1,11 @@
 options {
-USER_CHAR_STREAM = true;
+USER_CHAR_STREAM = false;
+STATIC = false;
 }
 PARSER_BEGIN(NewScript)
 
 /** New line translator. */
 public class NewScript {
-
-  public static class CustomNode extends SimpleNode {
-
-    CustomNode(int i){
-      super(i);
-    }
-    public int getChildrenCount() {
-      return this.children==null?0:children.length;
-    }
-
-    public String getName() {
-      return NewScriptTreeConstants.jjtNodeName[this.id];
-    }
-
-    public Object eval(Object o) {
-      if(o == null) {
-        return null;
-      }
-      switch(this.id) {
-<<<<<<< HEAD
-
-        case JJTEXPRESSIONS:
-          System.out.println("Expressions");
-          return null;
-
-=======
-        case JJTEXPRESSIONS:
-          System.out.println("Expressions");
-          return null;
->>>>>>> 665765c155c81247756ea5b3d1f986a4fecb52b1
-        default:
-          System.out.println("default");
-          return null;
-      }
-    }
-  }
 
   /** Main entry point. */
   public static void main(String args[]) throws ParseException {
@@ -106,18 +71,12 @@ SimpleNode ExpressionList() #EXPRESSIONS :
 }
 {
   {
-    System.out.println("Please type in an expression followed by a \";\" or ^D to quit:");
     System.out.println("");
   }
-  ( s=command() ";""\n"
+  ( s=command() ";"
   {
     result+=s+";"+"\n";
   }
-  |
-  "\n"
-    {
-      result+="\n";
-    }
   )*
   <EOF>
     {
@@ -364,10 +323,7 @@ String arguments() #ARGS:
     return s;
   }
 }
-<<<<<<< HEAD
 
-=======
->>>>>>> 665765c155c81247756ea5b3d1f986a4fecb52b1
 void statement() #STATEMENT:
 {
   Token token;
