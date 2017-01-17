@@ -42,7 +42,7 @@ System.out.println("");
           break label_1;
         }
         s = command();
-        jj_consume_token(19);
+        jj_consume_token(20);
 result+=s+";"+"\u005cn";
       }
       jj_consume_token(0);
@@ -187,11 +187,11 @@ if (jjtc000) {
     String s;
     try {
       ref = reference();
-      jj_consume_token(20);
-      statement();
+      jj_consume_token(21);
+      sta = statement();
 jjtree.closeNodeScope(jjtn000, true);
       jjtc000 = false;
-s = ref + "= statement";
+s = ref + "=" + sta;
         {if ("" != null) return s;}
     } catch (Throwable jjte000) {
 if (jjtc000) {
@@ -343,11 +343,11 @@ if (jjtc000) {
     boolean jjtc000 = true;
     jjtree.openNodeScope(jjtn000);String s;
     try {
-      jj_consume_token(21);
+      jj_consume_token(22);
       s = reference();
 jjtree.closeNodeScope(jjtn000, true);
       jjtc000 = false;
-{if ("" != null) return s;}
+{if ("" != null) return "$"+s;}
     } catch (Throwable jjte000) {
 if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -453,13 +453,13 @@ jjtree.openNodeScope(jjtn000);String id, field, sub, s;
       id = segId();
 s = id;
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-      case 22:{
-        jj_consume_token(22);
+      case 23:{
+        jj_consume_token(23);
         field = fieldNum();
 s += "-" + field;
         switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-        case 23:{
-          jj_consume_token(23);
+        case 24:{
+          jj_consume_token(24);
           sub = subNum();
 s+= "." + sub;
           break;
@@ -507,12 +507,13 @@ if (jjtc000) {
     try {
       jj_consume_token(CALL);
       name = jj_consume_token(UNQUOTED_STRING);
-      jj_consume_token(24);
-      s = arguments();
       jj_consume_token(25);
+      s = arguments();
+      jj_consume_token(26);
 jjtree.closeNodeScope(jjtn000, true);
       jjtc000 = false;
-{if ("" != null) return name.image+"("+s+")";}
+jjtn000.value = name.image;
+      {if ("" != null) return name.image+"("+s+")";}
     } catch (Throwable jjte000) {
 if (jjtc000) {
         jjtree.clearNodeScope(jjtn000);
@@ -545,7 +546,7 @@ if (jjtc000) {
       label_2:
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-        case UNQUOTED_STRING:{
+        case STRING:{
           ;
           break;
           }
@@ -553,13 +554,13 @@ if (jjtc000) {
           jj_la1[10] = jj_gen;
           break label_2;
         }
-        arg_name = jj_consume_token(UNQUOTED_STRING);
-        jj_consume_token(26);
-        arg_value = jj_consume_token(UNQUOTED_STRING);
+        arg_name = jj_consume_token(STRING);
+        jj_consume_token(27);
+        arg_value = jj_consume_token(STRING);
 s+= arg_name.image + "=>" + arg_value.image;
         switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-        case 27:{
-          jj_consume_token(27);
+        case 28:{
+          jj_consume_token(28);
 s += ",";
           break;
           }
@@ -570,7 +571,8 @@ s += ",";
       }
 jjtree.closeNodeScope(jjtn000, true);
     jjtc000 = false;
-{if ("" != null) return s;}
+jjtn000.value = s;
+    {if ("" != null) return s;}
     } finally {
 if (jjtc000) {
       jjtree.closeNodeScope(jjtn000, true);
@@ -579,10 +581,11 @@ if (jjtc000) {
     throw new Error("Missing return statement in function");
   }
 
-  final public void statement() throws ParseException {/*@bgen(jjtree) STATEMENT */
+  final public String statement() throws ParseException {/*@bgen(jjtree) STATEMENT */
   SimpleNode jjtn000 = new SimpleNode(JJTSTATEMENT);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);Token token;
+  String s;
     try {
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case STRING:{
@@ -590,10 +593,14 @@ if (jjtc000) {
 jjtree.closeNodeScope(jjtn000, true);
       jjtc000 = false;
 jjtn000.value = token.image;
+      {if ("" != null) return token.image;}
         break;
         }
-      case 21:{
-        referencePointer();
+      case 22:{
+        s = referencePointer();
+jjtree.closeNodeScope(jjtn000, true);
+      jjtc000 = false;
+{if ("" != null) return s;}
         break;
         }
       case PRESET_VALUE:{
@@ -601,6 +608,7 @@ jjtn000.value = token.image;
 jjtree.closeNodeScope(jjtn000, true);
       jjtc000 = false;
 jjtn000.value = token.image;
+      {if ("" != null) return token.image;}
         break;
         }
       default:
@@ -627,6 +635,7 @@ if (jjtc000) {
       jjtree.closeNodeScope(jjtn000, true);
     }
     }
+    throw new Error("Missing return statement in function");
   }
 
   final public String segId() throws ParseException {/*@bgen(jjtree) SEG_ID */
@@ -638,7 +647,7 @@ if (jjtc000) {
       id = jj_consume_token(ID);
 jjtn000.value = id.image;
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-      case 28:{
+      case 29:{
         s = repetitionSelector();
         break;
         }
@@ -682,7 +691,7 @@ if (jjtc000) {
 s = (String) num.image;
         jjtn000.value = num.image;
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-      case 28:{
+      case 29:{
         rep = repetitionSelector();
 s += rep;
         break;
@@ -726,7 +735,7 @@ if (jjtc000) {
 s = (String) num.image;
         jjtn000.value = num.image;
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-      case 28:{
+      case 29:{
         rep = repetitionSelector();
 s += rep;
         break;
@@ -766,12 +775,13 @@ if (jjtc000) {
     jjtree.openNodeScope(jjtn000);Token num;
     String s;
     try {
-      jj_consume_token(28);
-      num = jj_consume_token(NUM);
       jj_consume_token(29);
+      num = jj_consume_token(NUM);
+      jj_consume_token(30);
 jjtree.closeNodeScope(jjtn000, true);
       jjtc000 = false;
 s = "[" + num.image + "]";
+        jjtn000.value = num.image;
         {if ("" != null) return s;}
     } finally {
 if (jjtc000) {
@@ -813,7 +823,7 @@ if (jjtc000) {
       jj_la1_init_0();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x3b0,0x20,0x10,0x300,0x3b0,0x600,0x78000,0x4000,0x800000,0x400000,0x2000,0x8000000,0x201400,0x10000000,0x10000000,0x10000000,};
+      jj_la1_0 = new int[] {0x760,0x40,0x20,0x600,0x760,0xc00,0xf0000,0x8000,0x1000000,0x800000,0x800,0x10000000,0x402800,0x20000000,0x20000000,0x20000000,};
    }
 
   /** Constructor with InputStream. */
@@ -933,7 +943,7 @@ if (jjtc000) {
   /** Generate ParseException. */
   public ParseException generateParseException() {
     jj_expentries.clear();
-    boolean[] la1tokens = new boolean[30];
+    boolean[] la1tokens = new boolean[31];
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
@@ -947,7 +957,7 @@ if (jjtc000) {
         }
       }
     }
-    for (int i = 0; i < 30; i++) {
+    for (int i = 0; i < 31; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;

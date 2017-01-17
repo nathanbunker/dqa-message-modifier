@@ -35,26 +35,61 @@ class SimpleNode implements Node {
       }
     }
   }
+  
+  public ReferenceParsed getReference(SimpleNode node){
+	  ReferenceParsed reference = new ReferenceParsed();
+	  SimpleNode refId, segId, fieldNum, subNum;
+	  
+	  refId = (SimpleNode) node.jjtGetChild(0).jjtGetChild(0);
+      segId = (SimpleNode) refId.jjtGetChild(0);
+      reference.setSegment((String) segId.jjtGetValue());
+      if(segId.jjtGetNumChildren() > 0){
+      	SimpleNode repetSelector = (SimpleNode) segId.jjtGetChild(0);
+      	reference.setSegmentRepeat(Integer.parseInt((String) repetSelector.jjtGetValue()));
+      }
+      if(refId.jjtGetNumChildren() > 1){
+          fieldNum = (SimpleNode) refId.children[1];
+          reference.setField(Integer.parseInt((String) fieldNum.jjtGetValue()));
+          if(fieldNum.jjtGetNumChildren() > 0){
+          	SimpleNode repetSelector = (SimpleNode) fieldNum.jjtGetChild(0);
+          	reference.setFieldRepeat(Integer.parseInt((String) repetSelector.jjtGetValue()));
+          }
+      }
+      if(refId.jjtGetNumChildren() > 2){
+          subNum = (SimpleNode) refId.children[2];
+          reference.setSubfield(Integer.parseInt((String) subNum.jjtGetValue()));
+          /*if(subNum.jjtGetNumChildren() > 0){
+          	SimpleNode repetSelector = (SimpleNode) subNum.jjtGetChild(0);
+          	reference.setSubFieldRepeat(Integer.parseInt((String) repetSelector.jjtGetValue()));
+          }*/
+      }
+      return reference;
+  }
 
   public SetCommand createSetCommand() {
 	  SetCommand command = new SetCommand();
+	  ReferenceParsed targetRef = new ReferenceParsed();
 	  for (int i = 0; i < children.length; ++i) {
 		  SimpleNode n = (SimpleNode)children[i];
 		  if(n.id == 1) {
 			  SimpleNode child = (SimpleNode) n.children[0];
 			  switch(child.id) {
               	case 3:
-              		ReferenceParsed reference = new ReferenceParsed();
-              		SimpleNode refId = (SimpleNode) child.children[0].jjtGetChild(0);
-                    SimpleNode segId = (SimpleNode) refId.children[0];
-                    reference.setSegment((String) segId.jjtGetValue());
-                    SimpleNode fieldNum = (SimpleNode) refId.children[1];
-                    reference.setField(Integer.parseInt((String) fieldNum.jjtGetValue()));
-                    SimpleNode statement = (SimpleNode) child.children[1];
-                    String value = (String) statement.jjtGetValue();
-                    value = value.replace("\"", "");
-                    command.setStringValue(value);
-                    command.setTargetReference(reference);
+              		targetRef = getReference(child);
+                    SimpleNode statement = (SimpleNode) child.jjtGetChild(1);
+                    if(statement.jjtGetNumChildren() > 0){
+                    	ReferenceParsed sourceRef = getReference((SimpleNode) statement.jjtGetChild(0));
+                        command.setSourceReference(sourceRef);
+	                }else{
+	                    String value = (String) statement.jjtGetValue();
+	                    value = value.replace("\"", "");
+	                    command.setStringValue(value);
+                    }     
+                    command.setTargetReference(targetRef);
+              		break;
+              		
+              	case 6:
+              		targetRef = getReference(child);
               		break;
               		
               	default:

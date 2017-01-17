@@ -11,35 +11,35 @@ public interface NewScriptConstants {
   /** End of File. */
   int EOF = 0;
   /** RegularExpression Id. */
-  int IF = 4;
+  int IF = 5;
   /** RegularExpression Id. */
-  int FOR = 5;
+  int FOR = 6;
   /** RegularExpression Id. */
-  int THEN = 6;
+  int THEN = 7;
   /** RegularExpression Id. */
-  int USE = 7;
+  int USE = 8;
   /** RegularExpression Id. */
-  int CALL = 8;
+  int CALL = 9;
   /** RegularExpression Id. */
-  int ID = 9;
+  int ID = 10;
   /** RegularExpression Id. */
-  int STRING = 10;
+  int STRING = 11;
   /** RegularExpression Id. */
-  int NUM = 11;
+  int NUM = 12;
   /** RegularExpression Id. */
-  int PRESET_VALUE = 12;
+  int PRESET_VALUE = 13;
   /** RegularExpression Id. */
-  int UNQUOTED_STRING = 13;
+  int UNQUOTED_STRING = 14;
   /** RegularExpression Id. */
-  int CONTEXT_SELECTOR = 14;
+  int CONTEXT_SELECTOR = 15;
   /** RegularExpression Id. */
-  int EQUAL = 15;
+  int EQUAL = 16;
   /** RegularExpression Id. */
-  int DIFFERENT = 16;
+  int DIFFERENT = 17;
   /** RegularExpression Id. */
-  int GREATER_THAN = 17;
+  int GREATER_THAN = 18;
   /** RegularExpression Id. */
-  int LESSER_THAN = 18;
+  int LESSER_THAN = 19;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -50,6 +50,7 @@ public interface NewScriptConstants {
     "\" \"",
     "\"\\t\"",
     "\"\\r\"",
+    "\"\\n\"",
     "\"if\"",
     "\"for\"",
     "\"then\"",

@@ -30,6 +30,7 @@ SKIP :
 " "
 | "\t"
 | "\r"
+| "\n"
 }
 
 TOKEN :
@@ -48,7 +49,7 @@ TOKEN :
 |
   < STRING: "\""( ["a"-"z","A"-"Z","_","0"-"9"] )* "\"">
 |
-  < NUM: ( ["0"-"9"] )+ >
+  < NUM: (( ["0"-"9"] )+ | ("*")) >
 |
   < PRESET_VALUE: "["["a"-"z","A"-"Z","_"] ( ["a"-"z","A"-"Z","_","0"-"9"] )* "]">
 |
@@ -150,9 +151,9 @@ String assignment() #ASSIGNMENT :
 {
     ref = reference()
     "="
-    statement()
+    sta=statement()
     {
-        s = ref + "= statement";
+        s = ref + "=" + sta;
         return s;
     }
 }
@@ -217,7 +218,7 @@ String referencePointer() #REF_POINTER:
 {
     "$"s = reference()
     {
-        return s;
+        return "$"+s;
     }
 }
 
@@ -296,6 +297,7 @@ String functionCall() #FUNCTION:
   s=arguments()
   ")"
     {
+      jjtThis.value = name.image;
       return name.image+"("+s+")";
     }
 }
@@ -308,7 +310,7 @@ String arguments() #ARGS:
 }
 {
   (
-  arg_name=<UNQUOTED_STRING> "=>" arg_value = <UNQUOTED_STRING>
+  arg_name=<STRING> "=>" arg_value = <STRING>
   {
       s+= arg_name.image + "=>" + arg_value.image;
   }
@@ -320,25 +322,32 @@ String arguments() #ARGS:
         )?
   )*
   {
+    jjtThis.value = s;
     return s;
   }
 }
 
-void statement() #STATEMENT:
+String statement() #STATEMENT:
 {
   Token token;
+  String s;
 }
 {
   token = <STRING>
     {
       jjtThis.value = token.image;
+      return token.image;
     }
   |
-    referencePointer()
+    s=referencePointer()
+    {
+    	return s;
+    }
   |
   token=<PRESET_VALUE>
     {
       jjtThis.value = token.image;
+      return token.image;
     }
 }
 
@@ -416,6 +425,7 @@ String repetitionSelector() #REPETION_SELECTOR:
         "]"
     {
         s = "[" + num.image + "]";
+        jjtThis.value = num.image;
         return s;
     }
 }

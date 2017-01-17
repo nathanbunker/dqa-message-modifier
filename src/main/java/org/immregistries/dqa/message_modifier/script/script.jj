@@ -34,6 +34,7 @@ SKIP :
 " "
 | "\t"
 | "\r"
+| "\n"
 }
 
 TOKEN :
@@ -52,7 +53,7 @@ TOKEN :
 |
   < STRING: "\""( ["a"-"z","A"-"Z","_","0"-"9"] )* "\"">
 |
-  < NUM: ( ["0"-"9"] )+ >
+  < NUM: (( ["0"-"9"] )+ | ("*")) >
 |
   < PRESET_VALUE: "["["a"-"z","A"-"Z","_"] ( ["a"-"z","A"-"Z","_","0"-"9"] )* "]">
 |
@@ -239,14 +240,14 @@ String assignment()             :
 /*@egen*/
     ref = reference()
     "="
-    statement()/*@bgen(jjtree)*/
+    sta=statement()/*@bgen(jjtree)*/
     {
       jjtree.closeNodeScope(jjtn000, true);
       jjtc000 = false;
     }
 /*@egen*/
     {
-        s = ref + "= statement";
+        s = ref + "=" + sta;
         return s;
     }/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
@@ -421,7 +422,7 @@ String referencePointer()             :
     }
 /*@egen*/
     {
-        return s;
+        return "$"+s;
     }/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
       if (jjtc000) {
@@ -624,6 +625,7 @@ String functionCall()          :
     }
 /*@egen*/
     {
+      jjtn000.value = name.image;
       return name.image+"("+s+")";
     }/*@bgen(jjtree)*/
     } catch (Throwable jjte000) {
@@ -662,7 +664,7 @@ String arguments()      :
   try {
 /*@egen*/
   (
-  arg_name=<UNQUOTED_STRING> "=>" arg_value = <UNQUOTED_STRING>
+  arg_name=<STRING> "=>" arg_value = <STRING>
   {
       s+= arg_name.image + "=>" + arg_value.image;
   }
@@ -679,6 +681,7 @@ String arguments()      :
   }
 /*@egen*/
   {
+    jjtn000.value = s;
     return s;
   }/*@bgen(jjtree)*/
   } finally {
@@ -689,13 +692,14 @@ String arguments()      :
 /*@egen*/
 }
 
-void statement()           :
+String statement()           :
 {/*@bgen(jjtree) STATEMENT */
   SimpleNode jjtn000 = new SimpleNode(JJTSTATEMENT);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
 /*@egen*/
   Token token;
+  String s;
 }
 {/*@bgen(jjtree) STATEMENT */
   try {
@@ -708,9 +712,18 @@ void statement()           :
 /*@egen*/
     {
       jjtn000.value = token.image;
+      return token.image;
     }
   |
-    referencePointer()
+    s=referencePointer()/*@bgen(jjtree)*/
+    {
+      jjtree.closeNodeScope(jjtn000, true);
+      jjtc000 = false;
+    }
+/*@egen*/
+    {
+    	return s;
+    }
   |
   token=<PRESET_VALUE>/*@bgen(jjtree)*/
     {
@@ -720,6 +733,7 @@ void statement()           :
 /*@egen*/
     {
       jjtn000.value = token.image;
+      return token.image;
     }/*@bgen(jjtree)*/
   } catch (Throwable jjte000) {
     if (jjtc000) {
@@ -921,6 +935,7 @@ String repetitionSelector()                   :
 /*@egen*/
     {
         s = "[" + num.image + "]";
+        jjtn000.value = num.image;
         return s;
     }/*@bgen(jjtree)*/
         } finally {
