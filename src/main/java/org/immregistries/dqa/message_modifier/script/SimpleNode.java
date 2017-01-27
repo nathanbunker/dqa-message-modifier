@@ -1,5 +1,7 @@
 package org.immregistries.dqa.message_modifier.script;
 
+import java.util.ArrayList;
+
 import org.immregistries.dqa.message_modifier.transform.ReferenceParsed;
 import org.immregistries.dqa.message_modifier.transform.SetCommand;
 
@@ -44,20 +46,36 @@ class SimpleNode implements Node {
       segId = (SimpleNode) refId.jjtGetChild(0);
       reference.setSegment((String) segId.jjtGetValue());
       if(segId.jjtGetNumChildren() > 0){
-      	SimpleNode repetSelector = (SimpleNode) segId.jjtGetChild(0);
-      	reference.setSegmentRepeat(Integer.parseInt((String) repetSelector.jjtGetValue()));
+      	SimpleNode repeatSelector = (SimpleNode) segId.jjtGetChild(0);
+      	if(repeatSelector.jjtGetValue().equals("*")){
+      	  reference.setSegmentRepeat(0);
+        }else{
+        	reference.setSegmentRepeat(Integer.parseInt((String) repeatSelector.jjtGetValue()));
+        }
       }
       if(refId.jjtGetNumChildren() > 1){
           fieldNum = (SimpleNode) refId.children[1];
-          reference.setField(Integer.parseInt((String) fieldNum.jjtGetValue()));
+          if(fieldNum.jjtGetValue().equals("*")){
+        	  reference.setField(0);
+          }else{
+        	  reference.setField(Integer.parseInt((String) fieldNum.jjtGetValue()));
+          }
           if(fieldNum.jjtGetNumChildren() > 0){
-          	SimpleNode repetSelector = (SimpleNode) fieldNum.jjtGetChild(0);
-          	reference.setFieldRepeat(Integer.parseInt((String) repetSelector.jjtGetValue()));
+          	SimpleNode repeatSelector = (SimpleNode) fieldNum.jjtGetChild(0);
+          	if(repeatSelector.jjtGetValue().equals("*")){
+            	  reference.setFieldRepeat(0);
+              }else{
+            	  reference.setFieldRepeat(Integer.parseInt((String) repeatSelector.jjtGetValue()));
+              }
           }
       }
       if(refId.jjtGetNumChildren() > 2){
           subNum = (SimpleNode) refId.children[2];
-          reference.setSubfield(Integer.parseInt((String) subNum.jjtGetValue()));
+          if(subNum.jjtGetValue().equals("*")){
+        	  reference.setSubfield(0);
+          }else{
+        	  reference.setSubfield(Integer.parseInt((String) subNum.jjtGetValue()));
+          }
           /*if(subNum.jjtGetNumChildren() > 0){
           	SimpleNode repetSelector = (SimpleNode) subNum.jjtGetChild(0);
           	reference.setSubFieldRepeat(Integer.parseInt((String) repetSelector.jjtGetValue()));
@@ -73,6 +91,7 @@ class SimpleNode implements Node {
 		  SimpleNode n = (SimpleNode)children[i];
 		  if(n.id == 1) {
 			  SimpleNode child = (SimpleNode) n.children[0];
+			  
 			  switch(child.id) {
               	case 3:
               		targetRef = getReference(child);
@@ -89,7 +108,17 @@ class SimpleNode implements Node {
               		break;
               		
               	case 6:
-              		targetRef = getReference(child);
+              		targetRef = getReference((SimpleNode) child.jjtGetChild(0));
+              		command.setTargetReference(targetRef);
+              		SimpleNode functionCall = (SimpleNode) n.jjtGetChild(1);
+              		String functionName = (String) functionCall.jjtGetValue();
+              		SimpleNode args = (SimpleNode) functionCall.jjtGetChild(0);
+              		String[] args_list = ((String) args.jjtGetValue()).split(",");
+              		String arguments[][] = new String[args_list.length][2];
+              		for(int j = 0; j <args_list.length; j++){
+              			arguments[j][0] = (args_list[j].split("=>")[0]);
+              			arguments[j][1] = (args_list[j].split("=>")[1]);
+              		}
               		break;
               		
               	default:
