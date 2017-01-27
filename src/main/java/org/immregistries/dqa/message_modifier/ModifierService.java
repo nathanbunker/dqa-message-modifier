@@ -24,7 +24,7 @@ public class ModifierService {
       NewScript parser = new NewScript(
           new ByteArrayInputStream(modifyRequest.getModificationScript().getBytes("UTF-8")));
       SimpleNode n = parser.ExpressionList();
-      //n.testPrint();
+      n.testPrint();
       SetCommand setCommand = n.createSetCommand();
       commandList.add(setCommand);
       System.out.println("String Value : " + setCommand.getStringValue());
