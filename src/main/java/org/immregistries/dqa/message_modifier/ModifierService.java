@@ -28,8 +28,8 @@ public class ModifierService {
       SetCommand setCommand = n.createSetCommand();
       commandList.add(setCommand);
       System.out.println("String Value : " + setCommand.getStringValue());
-      System.out.println("Field : " + setCommand.getTargetReference().getField());
-      System.out.println("Segment : " + setCommand.getTargetReference().getSegment());
+      System.out.println("Field : " + setCommand.getTargetReference().getFieldPos());
+      System.out.println("Segment : " + setCommand.getTargetReference().getSegmentName());
       // Need to generate a list of commands
 
       for (Command command : commandList) {

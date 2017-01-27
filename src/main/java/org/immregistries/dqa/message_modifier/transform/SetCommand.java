@@ -17,11 +17,11 @@ public class SetCommand extends Command {
     String resultText = modifyRequest.getMessageOriginal();
 
     int count = 1;
-    if (targetReference.isAll()) {
+    if (targetReference.isSegementAll()) {
       count = countSegments(resultText, targetReference);
     }
     for (int i = 1; i <= count; i++) {
-      if (targetReference.isAll()) {
+      if (targetReference.isSegementAll()) {
         targetReference.segmentRepeat = i;
       }
 
@@ -65,7 +65,7 @@ public class SetCommand extends Command {
             }
             skip = true;
           } else if (foundBoundStart) {
-            if (!lineResult.startsWith(t.segment + "|")) {
+            if (!lineResult.startsWith(t.segmentName + "|")) {
               skip = true;
             }
           } else {
@@ -76,18 +76,18 @@ public class SetCommand extends Command {
             continue;
           }
         }
-        if (lineResult.startsWith(t.segment + "|")) {
+        if (lineResult.startsWith(t.segmentName + "|")) {
           repeatCount++;
           if (t.segmentRepeat == repeatCount) {
             int pos = lineResult.indexOf("|");
             int count = (lineResult.startsWith("MSH|") || lineResult.startsWith("FHS|")
                 || lineResult.startsWith("BHS|")) ? 2 : 1;
-            while (pos != -1 && count < t.field) {
+            while (pos != -1 && count < t.fieldPos) {
               pos = lineResult.indexOf("|", pos + 1);
               count++;
             }
             if (pos == -1) {
-              while (count < t.field) {
+              while (count < t.fieldPos) {
                 lineResult += "|";
                 count++;
               }
@@ -95,7 +95,7 @@ public class SetCommand extends Command {
               lineResult += "||";
             }
 
-            boolean isMSH2 = lineResult.startsWith("MSH|") && t.field == 2;
+            boolean isMSH2 = lineResult.startsWith("MSH|") && t.fieldPos == 2;
             count = 1;
             pos++;
             int tildePos = pos;
@@ -122,7 +122,7 @@ public class SetCommand extends Command {
             }
 
             count = 1;
-            while (pos != -1 && count < t.subfield) {
+            while (pos != -1 && count < t.subfieldPos) {
               int posCaret = isMSH2 ? -1 : lineResult.indexOf("^", pos);
               int endPosBar = lineResult.indexOf("|", pos);
               if (endPosBar == -1) {
@@ -135,7 +135,7 @@ public class SetCommand extends Command {
               if (posCaret == -1 || (posCaret > endPosBar || posCaret > endPosTilde)) {
                 // there's no caret, so add it to value, keep same
                 // position
-                while (count < t.subfield) {
+                while (count < t.subfieldPos) {
                   prepend = prepend + "^";
                   count++;
                 }
@@ -151,9 +151,9 @@ public class SetCommand extends Command {
               count++;
             }
             if (pos != -1) {
-              if (t.subsubfield > 0) {
+              if (t.subsubfieldPos > 0) {
                 count = 1;
-                while (pos != -1 && count < t.subsubfield) {
+                while (pos != -1 && count < t.subsubfieldPos) {
                   int posAmper = isMSH2 ? -1 : lineResult.indexOf("&", pos);
                   int endPosBar = lineResult.indexOf("|", pos);
                   if (endPosBar == -1) {
@@ -178,7 +178,7 @@ public class SetCommand extends Command {
                   if (posAmper == -1 || (posAmper > endPos)) {
                     // there's no ampersand, so add it to the value, keep the
                     // same position
-                    while (count < t.subsubfield) {
+                    while (count < t.subsubfieldPos) {
                       prepend = prepend + "&";
                       count++;
                     }
@@ -204,7 +204,7 @@ public class SetCommand extends Command {
               if (endPosCaret != -1 && endPosCaret < endPos) {
                 endPos = endPosCaret;
               }
-              if (t.subsubfield > 0) {
+              if (t.subsubfieldPos > 0) {
                 int endPosAmper = isMSH2 ? -1 : lineResult.indexOf("&", pos);
                 if (endPosAmper != -1 && endPosAmper < endPos) {
                   endPos = endPosAmper;
@@ -232,7 +232,7 @@ public class SetCommand extends Command {
     int count = 0;
     while ((lineResult = inResult.readLine()) != null) {
       lineResult = lineResult.trim();
-      if (lineResult.startsWith(t.segment + "|")) {
+      if (lineResult.startsWith(t.segmentName + "|")) {
         count++;
       }
     }
@@ -298,7 +298,7 @@ public class SetCommand extends Command {
             }
             skip = true;
           } else if (foundBoundStart) {
-            if (!lineResult.startsWith(t.segment + "|")) {
+            if (!lineResult.startsWith(t.segmentName + "|")) {
               skip = true;
             }
           } else {
@@ -308,13 +308,13 @@ public class SetCommand extends Command {
             continue;
           }
         }
-        if (lineResult.startsWith(t.segment + "|")) {
+        if (lineResult.startsWith(t.segmentName + "|")) {
           repeatCount++;
           if (t.segmentRepeat == repeatCount) {
             int pos = lineResult.indexOf("|");
             int count = (lineResult.startsWith("MSH|") || lineResult.startsWith("FHS|")
                 || lineResult.startsWith("BHS|")) ? 2 : 1;
-            while (pos != -1 && count < t.field) {
+            while (pos != -1 && count < t.fieldPos) {
               pos = lineResult.indexOf("|", pos + 1);
               count++;
             }
@@ -324,8 +324,8 @@ public class SetCommand extends Command {
 
             pos++;
             count = 1;
-            boolean isMSH2 = lineResult.startsWith("MSH|") && t.field == 2;
-            while (pos != -1 && count < t.subfield) {
+            boolean isMSH2 = lineResult.startsWith("MSH|") && t.fieldPos == 2;
+            while (pos != -1 && count < t.subfieldPos) {
               int posCaret = isMSH2 ? -1 : lineResult.indexOf("^", pos);
               int endPosBar = lineResult.indexOf("|", pos);
               if (endPosBar == -1) {
@@ -336,7 +336,7 @@ public class SetCommand extends Command {
                 endPosTilde = lineResult.length();
               }
               if (posCaret == -1 || (posCaret > endPosBar || posCaret > endPosTilde)) {
-                if (count < t.subfield) {
+                if (count < t.subfieldPos) {
                   return "";
                 }
                 if (endPosTilde < endPosBar) {
@@ -350,9 +350,9 @@ public class SetCommand extends Command {
               }
               count++;
             }
-            if (t.subsubfield > 0) {
+            if (t.subsubfieldPos > 0) {
               count = 1;
-              while (pos != -1 && count < t.subsubfield) {
+              while (pos != -1 && count < t.subsubfieldPos) {
                 int posAmper = isMSH2 ? -1 : lineResult.indexOf("&", pos);
                 int endPosCaret = isMSH2 ? -1 : lineResult.indexOf("^", pos);
                 if (endPosCaret == -1) {
@@ -367,7 +367,7 @@ public class SetCommand extends Command {
                   endPosTilde = lineResult.length();
                 }
                 if (posAmper == -1 || (posAmper > endPosBar || posAmper > endPosTilde || posAmper > endPosCaret)) {
-                  if (count < t.subsubfield) {
+                  if (count < t.subsubfieldPos) {
                     return "";
                   }
                   if (endPosCaret < endPosTilde) {

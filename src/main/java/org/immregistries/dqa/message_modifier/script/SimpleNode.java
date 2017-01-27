@@ -44,11 +44,11 @@ class SimpleNode implements Node {
 	  
 	  refId = (SimpleNode) node.jjtGetChild(0).jjtGetChild(0);
       segId = (SimpleNode) refId.jjtGetChild(0);
-      reference.setSegment((String) segId.jjtGetValue());
+      reference.setSegmentName((String) segId.jjtGetValue());
       if(segId.jjtGetNumChildren() > 0){
       	SimpleNode repeatSelector = (SimpleNode) segId.jjtGetChild(0);
       	if(repeatSelector.jjtGetValue().equals("*")){
-      	  reference.setSegmentRepeat(0);
+      	  reference.setSegementAll(true);
         }else{
         	reference.setSegmentRepeat(Integer.parseInt((String) repeatSelector.jjtGetValue()));
         }
@@ -56,14 +56,14 @@ class SimpleNode implements Node {
       if(refId.jjtGetNumChildren() > 1){
           fieldNum = (SimpleNode) refId.children[1];
           if(fieldNum.jjtGetValue().equals("*")){
-        	  reference.setField(0);
+        	  // ignore, this isn't supported PID-*
           }else{
-        	  reference.setField(Integer.parseInt((String) fieldNum.jjtGetValue()));
+        	  reference.setFieldPos(Integer.parseInt((String) fieldNum.jjtGetValue()));
           }
           if(fieldNum.jjtGetNumChildren() > 0){
           	SimpleNode repeatSelector = (SimpleNode) fieldNum.jjtGetChild(0);
           	if(repeatSelector.jjtGetValue().equals("*")){
-            	  reference.setFieldRepeat(0);
+            	  reference.setFieldRepeatAll(true);
               }else{
             	  reference.setFieldRepeat(Integer.parseInt((String) repeatSelector.jjtGetValue()));
               }
@@ -72,9 +72,9 @@ class SimpleNode implements Node {
       if(refId.jjtGetNumChildren() > 2){
           subNum = (SimpleNode) refId.children[2];
           if(subNum.jjtGetValue().equals("*")){
-        	  reference.setSubfield(0);
+        	  // ignore, this is not valid
           }else{
-        	  reference.setSubfield(Integer.parseInt((String) subNum.jjtGetValue()));
+        	  reference.setSubfieldPos(Integer.parseInt((String) subNum.jjtGetValue()));
           }
           /*if(subNum.jjtGetNumChildren() > 0){
           	SimpleNode repetSelector = (SimpleNode) subNum.jjtGetChild(0);

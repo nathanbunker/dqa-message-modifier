@@ -4,121 +4,130 @@
  */
 package org.immregistries.dqa.message_modifier.transform;
 
-import org.immregistries.dqa.message_modifier.legacy.Transform;
-
 /**
  *
  * @author nathan
  */
 public class ReferenceParsed {
 
-  protected String segment;
-  protected int field;
-  protected int segmentRepeat = 1;
-  protected int fieldRepeat = 1;
-  protected boolean fieldRepeatSet = false;
-  protected int subfield;
-  protected boolean subfieldSet = false;
-  protected int subsubfield;
-  protected String boundSegment = null;
-  protected int boundRepeat = 1;
-  protected boolean all = false;
-  protected String testCaseId = null;
+	protected String segmentName;
+	protected boolean segementAll = false;
+	protected int segmentRepeat = 1;
 
-  public String getSegment() {
-    return segment;
-  }
+	protected int fieldPos;
+	protected boolean fieldRepeatAll = false;
+	protected int fieldRepeat = 1;
+	protected boolean fieldRepeatSet = false;
 
-  public void setSegment(String segment) {
-    this.segment = segment;
-  }
+	protected int subfieldPos;
+	protected boolean subfieldSet = false;
+	protected int subsubfieldPos;
+	protected String boundSegment = null;
+	protected int boundRepeat = 1;
+	protected String testCaseId = null;
 
-  public int getField() {
-    return field;
-  }
+	public String getSegmentName() {
+		return segmentName;
+	}
 
-  public void setField(int field) {
-    this.field = field;
-  }
+	public void setSegmentName(String segment) {
+		this.segmentName = segment;
+	}
 
-  public int getSegmentRepeat() {
-    return segmentRepeat;
-  }
+	public int getFieldPos() {
+		return fieldPos;
+	}
 
-  public void setSegmentRepeat(int segmentRepeat) {
-    this.segmentRepeat = segmentRepeat;
-  }
+	public void setFieldPos(int field) {
+		this.fieldPos = field;
+	}
 
-  public int getFieldRepeat() {
-    return fieldRepeat;
-  }
+	public int getSegmentRepeat() {
+		return segmentRepeat;
+	}
 
-  public void setFieldRepeat(int fieldRepeat) {
-    this.fieldRepeat = fieldRepeat;
-  }
+	public void setSegmentRepeat(int segmentRepeat) {
+		this.segmentRepeat = segmentRepeat;
+	}
 
-  public boolean isFieldRepeatSet() {
-    return fieldRepeatSet;
-  }
+	public int getFieldRepeat() {
+		return fieldRepeat;
+	}
 
-  public void setFieldRepeatSet(boolean fieldRepeatSet) {
-    this.fieldRepeatSet = fieldRepeatSet;
-  }
+	public void setFieldRepeat(int fieldRepeat) {
+		this.fieldRepeat = fieldRepeat;
+	}
 
-  public int getSubfield() {
-    return subfield;
-  }
+	public boolean isFieldRepeatSet() {
+		return fieldRepeatSet;
+	}
 
-  public void setSubfield(int subfield) {
-    this.subfield = subfield;
-  }
+	public void setFieldRepeatSet(boolean fieldRepeatSet) {
+		this.fieldRepeatSet = fieldRepeatSet;
+	}
 
-  public boolean isSubfieldSet() {
-    return subfieldSet;
-  }
+	public int getSubfieldPos() {
+		return subfieldPos;
+	}
 
-  public void setSubfieldSet(boolean subfieldSet) {
-    this.subfieldSet = subfieldSet;
-  }
+	public void setSubfieldPos(int subfield) {
+		this.subfieldPos = subfield;
+	}
 
-  public int getSubsubfield() {
-    return subsubfield;
-  }
+	public boolean isSubfieldSet() {
+		return subfieldSet;
+	}
 
-  public void setSubsubfield(int subsubfield) {
-    this.subsubfield = subsubfield;
-  }
+	public void setSubfieldSet(boolean subfieldSet) {
+		this.subfieldSet = subfieldSet;
+	}
 
-  public String getBoundSegment() {
-    return boundSegment;
-  }
+	public int getSubsubfieldPos() {
+		return subsubfieldPos;
+	}
 
-  public void setBoundSegment(String boundSegment) {
-    this.boundSegment = boundSegment;
-  }
+	public void setSubsubfieldPos(int subsubfield) {
+		this.subsubfieldPos = subsubfield;
+	}
 
-  public int getBoundRepeat() {
-    return boundRepeat;
-  }
+	public boolean isFieldRepeatAll() {
+		return fieldRepeatAll;
+	}
 
-  public void setBoundRepeat(int boundRepeat) {
-    this.boundRepeat = boundRepeat;
-  }
+	public void setFieldRepeatAll(boolean fieldAll) {
+		this.fieldRepeatAll = fieldAll;
+	}
 
-  public boolean isAll() {
-    return all;
-  }
+	public String getBoundSegment() {
+		return boundSegment;
+	}
 
-  public void setAll(boolean all) {
-    this.all = all;
-  }
+	public void setBoundSegment(String boundSegment) {
+		this.boundSegment = boundSegment;
+	}
 
-  public String getTestCaseId() {
-    return testCaseId;
-  }
+	public int getBoundRepeat() {
+		return boundRepeat;
+	}
 
-  public void setTestCaseId(String testCaseId) {
-    this.testCaseId = testCaseId;
-  }
+	public void setBoundRepeat(int boundRepeat) {
+		this.boundRepeat = boundRepeat;
+	}
+
+	public boolean isSegementAll() {
+		return segementAll;
+	}
+
+	public void setSegementAll(boolean all) {
+		this.segementAll = all;
+	}
+
+	public String getTestCaseId() {
+		return testCaseId;
+	}
+
+	public void setTestCaseId(String testCaseId) {
+		this.testCaseId = testCaseId;
+	}
 
 }

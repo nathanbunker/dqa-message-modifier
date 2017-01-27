@@ -93,20 +93,6 @@ public class ModifyRequestTest extends TestCase {
         String messageFinal =    "PID|Watson|Watson|Watson^^^AIRA-TEST^MR|Watson|Watson^Jeramiah^Z^IV^^^L~Holmes^Jeramiah^Z^IV^^^L|Watson^Arden|Watson|Watson|Watson|Watson|Watson^^Cadmus^MI^49221^USA^P|Watson|Watson^PRN^PH^^^517^3004208|Watson";
         runTest(messageOriginal, modificationScript, messageFinal);
     }
-    {
-        String modificationScript = "PID-*[*]=\"Watson\";";
-        
-        String messageOriginal = "PID|||Q63W1^^^AIRA-TEST^MR||Holmes^Jeramiah^Z^IV^^^L~Holmes^Jeramiah^Z^IV^^^L|Monroe^Arden|20160626|M|||155 Lewis Cir^^Cadmus^MI^49221^USA^P||^PRN^PH^^^517^3004208|";
-        String messageFinal =    "PID|Watson|Watson|Watson^^^AIRA-TEST^MR|Watson|Watson^Jeramiah^Z^IV^^^L~Watson^Jeramiah^Z^IV^^^L|Watson^Arden|Watson|Watson|Watson|Watson|Watson^^Cadmus^MI^49221^USA^P|Watson|Watson^PRN^PH^^^517^3004208|Watson";
-        //runTest(messageOriginal, modificationScript, messageFinal);
-    }
-    {
-        String modificationScript = "PID-*[*].*=\"Watson\";";
-        
-        String messageOriginal = "PID|||Q63W1^^^AIRA-TEST^MR||Holmes^Jeramiah^Z^IV^^^L~Holmes^Jeramiah^Z^IV^^^L|Monroe^Arden|20160626|M|||155 Lewis Cir^^Cadmus^MI^49221^USA^P||^PRN^PH^^^517^3004208|";
-        String messageFinal =    "PID|Watson|Watson|Watson^Watson^Watson^Watson^Watson|Watson|Watson^Watson^Watson^Watson^Watson^Watson^Watson~Watson^Watson^Watson^Watson^Watson^Watson^Watson|Watson^Watson|Watson|Watson|Watson|Watson|Watson^Watson^Watson^Watson^Watson^Watson^Watson|Watson|Watson^Watson^Watson^Watson^Watson^Watson^Watson|Watson";
-        //runTest(messageOriginal, modificationScript, messageFinal);
-    }    
     // Mapping
     {
         String modificationScript = "for $RXA-5.2 call map(\"PCV 13\" => \"03\", \"Default\" => \"Unknown\");";

@@ -36,11 +36,11 @@ public class SetCommandTest extends TestCase {
     {
       SetCommand setCommand = new SetCommand();
       ReferenceParsed targetReference = new ReferenceParsed();
-      targetReference.setSegment("PID");
-      targetReference.setField(6);
+      targetReference.setSegmentName("PID");
+      targetReference.setFieldPos(6);
       ReferenceParsed sourceReference = new ReferenceParsed();
-      sourceReference.setSegment("PID");
-      sourceReference.setField(5);
+      sourceReference.setSegmentName("PID");
+      sourceReference.setFieldPos(5);
       ModifyRequest modifyRequest = new ModifyRequest();
       modifyRequest.setMessageOriginal(TEST1_ORIGINAL);
       setCommand.setTargetReference(targetReference);
@@ -51,8 +51,8 @@ public class SetCommandTest extends TestCase {
     {
       SetCommand setCommand = new SetCommand();
       ReferenceParsed targetReference = new ReferenceParsed();
-      targetReference.setSegment("PID");
-      targetReference.setField(6);
+      targetReference.setSegmentName("PID");
+      targetReference.setFieldPos(6);
       ModifyRequest modifyRequest = new ModifyRequest();
       modifyRequest.setMessageOriginal(TEST1_ORIGINAL);
       setCommand.setTargetReference(targetReference);
