@@ -17,6 +17,13 @@ public class ModifyRequestTest extends TestCase {
       runTest(messageOriginal, modificationScript, messageFinal);
     }
     {
+        String modificationScript = "PID-5=\"\";\rPID-6=\"\";";
+        
+        String messageOriginal = "PID|||Q63W1^^^AIRA-TEST^MR||Holmes^Jeramiah^Z^IV^^^L|Monroe^Arden|20160626|M|||155 Lewis Cir^^Cadmus^MI^49221^USA^P||^PRN^PH^^^517^3004208|";
+        String messageFinal =    "PID|||Q63W1^^^AIRA-TEST^MR||^Jeramiah^Z^IV^^^L|^Arden|20160626|M|||155 Lewis Cir^^Cadmus^MI^49221^USA^P||^PRN^PH^^^517^3004208|";
+        runTest(messageOriginal, modificationScript, messageFinal);
+      }
+    {
         String modificationScript = "PID-5.1=\"\";";
         
         String messageOriginal = "PID|||Q63W1^^^AIRA-TEST^MR||Holmes^Jeramiah^Z^IV^^^L|Monroe^Arden|20160626|M|||155 Lewis Cir^^Cadmus^MI^49221^USA^P||^PRN^PH^^^517^3004208|";

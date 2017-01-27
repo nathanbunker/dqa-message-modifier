@@ -14,7 +14,7 @@ public class SetCommand extends Command {
 
   @Override
   public void doTransform(ModifyRequest modifyRequest) throws IOException {
-    String resultText = modifyRequest.getMessageOriginal();
+    String resultText = modifyRequest.getMessageFinal();
 
     int count = 1;
     if (targetReference.isSegementAll()) {

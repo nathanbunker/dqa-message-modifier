@@ -4,67 +4,67 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ModifyRequest {
-  private String messageOriginal = "";
-  private String messageFinal = "";
-  private String modificationScript = "";
-  private Map<String, String> messageMap = new HashMap<>();
-  private Exception exception = null;
-  private String segmentSeparator = "\r";
-  private ModifyRequestStatus modifyRequestStatus = ModifyRequestStatus.INITIALZED;
-  
-  public String getSegmentSeparator() {
-    return segmentSeparator;
-  }
+	private String messageOriginal = "";
+	private String messageFinal = "";
+	private String modificationScript = "";
+	private Map<String, String> messageMap = new HashMap<>();
+	private Exception exception = null;
+	private String segmentSeparator = "\r";
+	private ModifyRequestStatus modifyRequestStatus = ModifyRequestStatus.INITIALZED;
 
-  public void setSegmentSeparator(String segmentSeparator) {
-    this.segmentSeparator = segmentSeparator;
-  }
+	public String getSegmentSeparator() {
+		return segmentSeparator;
+	}
 
-  public String getModificationScript() {
-    return modificationScript;
-  }
-  
-  public void setModificationScript(String modificationScript) {
-    this.modificationScript = modificationScript;
-  }
-  
-  public Exception getException() {
-    return exception;
-  }
+	public void setSegmentSeparator(String segmentSeparator) {
+		this.segmentSeparator = segmentSeparator;
+	}
 
-  protected void setException(Exception exception) {
-    this.exception = exception;
-  }
+	public String getModificationScript() {
+		return modificationScript;
+	}
 
-  public ModifyRequestStatus getModifyRequestStatus() {
-    return modifyRequestStatus;
-  }
+	public void setModificationScript(String modificationScript) {
+		this.modificationScript = modificationScript;
+	}
 
-  protected void setModifyRequestStatus(ModifyRequestStatus modifyRequestStatus) {
-    this.modifyRequestStatus = modifyRequestStatus;
-  }
+	public Exception getException() {
+		return exception;
+	}
 
-  public String getMessageOriginal() {
-    return messageOriginal;
-  }
+	protected void setException(Exception exception) {
+		this.exception = exception;
+	}
 
-  public void setMessageOriginal(String messageOriginal) {
-    this.messageOriginal = messageOriginal;
-  }
+	public ModifyRequestStatus getModifyRequestStatus() {
+		return modifyRequestStatus;
+	}
 
-  public String getMessageFinal() {
-    return messageFinal;
-  }
+	protected void setModifyRequestStatus(ModifyRequestStatus modifyRequestStatus) {
+		this.modifyRequestStatus = modifyRequestStatus;
+	}
 
-  public void setMessageFinal(String messageFinal) {
-    this.messageFinal = messageFinal;
-  }
+	public String getMessageOriginal() {
+		return messageOriginal;
+	}
 
-  public void addToMessageMap(String messageKey, String message) {
-    messageMap.put(messageKey, message);
-  }
+	public void setMessageOriginal(String messageOriginal) {
+		this.messageOriginal = messageOriginal;
+	}
 
-  public Map<String, String> getMessageMap() {
-    return messageMap;
-  }
+	public String getMessageFinal() {
+		return messageFinal;
+	}
+
+	public void setMessageFinal(String messageFinal) {
+		this.messageFinal = messageFinal;
+	}
+
+	public void addToMessageMap(String messageKey, String message) {
+		messageMap.put(messageKey, message);
+	}
+
+	public Map<String, String> getMessageMap() {
+		return messageMap;
+	}
 }

@@ -32,6 +32,7 @@ public class ModifierService {
       System.out.println("Segment : " + setCommand.getTargetReference().getSegmentName());
       // Need to generate a list of commands
 
+      modifyRequest.setMessageFinal(modifyRequest.getMessageOriginal());
       for (Command command : commandList) {
         if (command instanceof SetCommand) {
           command.doTransform(modifyRequest);
