@@ -218,7 +218,8 @@ public class ModifyRequestTest extends TestCase {
     }
     
     // Questions about fixes : call fixAmpersand();  call fixEscape(); what does they do?
-    
+    // For fixAmpersand the any & becomes \T\ (except for in heading)
+    // For fixEscape() any single \ becomes \E\ (except for in heading)
     {
         String modificationScript = "call fixAmpersand();";
         
