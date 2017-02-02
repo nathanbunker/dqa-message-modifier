@@ -38,7 +38,7 @@ public class SetCommand extends Command {
 
   }
 
-  protected static String setValueInHL7(String newValue, String resultText, ReferenceParsed t, ModifyRequest modifyRequest)
+  public static String setValueInHL7(String newValue, String resultText, ReferenceParsed t, ModifyRequest modifyRequest)
       throws IOException {
 
     BufferedReader inResult = new BufferedReader(new StringReader(resultText));
@@ -263,7 +263,7 @@ public class SetCommand extends Command {
     this.sourceReference = sourceReference;
   }
 
-  protected static String getValueFromHL7(final String resultText, ReferenceParsed t, ModifyRequest modifyRequest)
+  public static String getValueFromHL7(final String resultText, ReferenceParsed t, ModifyRequest modifyRequest)
       throws IOException {
     BufferedReader inResult;
     {

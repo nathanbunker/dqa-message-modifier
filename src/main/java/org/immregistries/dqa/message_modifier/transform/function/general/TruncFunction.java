@@ -1,8 +1,11 @@
-package org.immregistries.dqa.message_modifier.transform;
+package org.immregistries.dqa.message_modifier.transform.function.general;
 
 import java.io.IOException;
 
 import org.immregistries.dqa.message_modifier.ModifyRequest;
+import org.immregistries.dqa.message_modifier.transform.CallCommand;
+import org.immregistries.dqa.message_modifier.transform.ReferenceParsed;
+import org.immregistries.dqa.message_modifier.transform.SetCommand;
 
 public class TruncFunction implements CallFunction {
 
