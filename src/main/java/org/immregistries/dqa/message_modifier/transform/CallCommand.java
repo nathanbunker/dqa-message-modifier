@@ -47,6 +47,34 @@ public class CallCommand extends Command {
 	  		function = new MapFunction();
 	  		function.doTransform(modifyRequest, this);
 	  		break;
+	  	case "trunc":
+	  		function = new TruncFunction();
+	  		function.doTransform(modifyRequest, this);
+	  		break;
+	  	case "clear":
+	  		function = new ClearFunction();
+	  		function.doTransform(modifyRequest, this);
+	  		break;
+	  	case "clean":
+	  		function = new CleanFunction();
+	  		function.doTransform(modifyRequest, this);
+	  		break;
+	  	case "insertbefore":
+	  		function = new InsertBeforeFunction();
+	  		function.doTransform(modifyRequest, this);
+	  		break;
+	  	case "insertafter":
+	  		function = new InsertAfterFunction();
+	  		function.doTransform(modifyRequest, this);
+	  		break;
+	  	case "insterfirst":
+	  		function = new InsertFirstFunction();
+	  		function.doTransform(modifyRequest, this);
+	  		break;
+	  	case "insterlast":
+	  		function = new InsertLastFunction();
+	  		function.doTransform(modifyRequest, this);
+	  		break;
 	  	default:
 	  		break;
 	  }

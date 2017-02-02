@@ -140,6 +140,13 @@ public class ModifyRequestTest extends TestCase {
         String messageFinal =    "RXA|0|1|20170104||133^PCV 13^CVX|0.5|mL^milliliters^UCUM||00^Administered^NIP001||||||Q8846RW||WAL^Wyeth^MVX||||A|";
         runTest(messageOriginal, modificationScript, messageFinal);
     }
+    {
+        String modificationScript = "for $RXA-5.2 call trunc(\"max\" => 1);";
+        
+        String messageOriginal = "RXA|0|1|20170104||133^PCV 13^CVX|0.5|mL^milliliters^UCUM||00^Administered^NIP001||||||Q8846RW||WAL^Wyeth^MVX||||A|";
+        String messageFinal =    "RXA|0|1|20170104||133^P^CVX|0.5|mL^milliliters^UCUM||00^Administered^NIP001||||||Q8846RW||WAL^Wyeth^MVX||||A|";
+        runTest(messageOriginal, modificationScript, messageFinal);
+    }
     
     // Clearing fields
     
@@ -163,6 +170,15 @@ public class ModifyRequestTest extends TestCase {
         String messageOriginal = "PID|||Q63W1^^^AIRA-TEST^MR||Holmes^Jeramiah^Z^IV^^^L|Monroe^Arden|20160626|M|||155 Lewis Cir^^Cadmus^MI^49221^USA^P||^PRN^PH^^^517^3004208|";
         String messageFinal =    "PID|||Q63W1^^^AIRA-TEST^MR||Holmes^^Z^IV^^^L|Monroe^Arden|20160626|M|||155 Lewis Cir^^Cadmus^MI^49221^USA^P||^PRN^PH^^^517^3004208|";
         runTest(messageOriginal, modificationScript, messageFinal);
+        
+    }
+    {
+        String modificationScript = "for $PID-3[4] call clear();";
+        
+        String messageOriginal = "PID|||Q63W1^^^AIRA-TEST^MR||Holmes^Jeramiah^Z^IV^^^L|Monroe^Arden|20160626|M|||155 Lewis Cir^^Cadmus^MI^49221^USA^P||^PRN^PH^^^517^3004208|";
+        String messageFinal =    "PID|||Q63W1^^^^MR||Holmes^Jeramiah^Z^IV^^^L|Monroe^Arden|20160626|M|||155 Lewis Cir^^Cadmus^MI^49221^USA^P||^PRN^PH^^^517^3004208|";
+        runTest(messageOriginal, modificationScript, messageFinal);
+        
     }
     
     //Cleaning fields
@@ -195,6 +211,26 @@ public class ModifyRequestTest extends TestCase {
     }
     
     // Questions about fixes : call fixAmpersand();  call fixEscape(); what does they do?
+    
+    {
+        String modificationScript = "call fixAmpersand();";
+        
+        String messageOriginal = "PID|||Q63W1^^^AIRA-TEST^MR||Holmes^Jeramiah^Z^IV^^^L|Monroe^Arden|20160626|M|||155 Lewis Cir^^Cadmus^MI^49221^USA^P||^PRN^PH^^^517^3004208|||||||||\n" +
+				     			 "PID|||Q63W1^^^AIRA-TEST^MR||Holmes^Jeramiah^Z^IV^^^L|Monroe^Arden|20160626|M|||155 Lewis Cir^^Cadmus^MI^49221^USA^P||^PRN^PH^^^517^3004208|";
+        String messageFinal =    "PID|||Q63W1^^^AIRA-TEST^MR||Holmes^Jeramiah^Z^IV^^^L|Monroe^Arden|20160626|M|||155 Lewis Cir^^Cadmus^MI^49221^USA^P||^PRN^PH^^^517^3004208|\n" +
+    			 				 "PID|||Q63W1^^^AIRA-TEST^MR||Holmes^Jeramiah^Z^IV^^^L|Monroe^Arden|20160626|M|||155 Lewis Cir^^Cadmus^MI^49221^USA^P||^PRN^PH^^^517^3004208|";
+        runTest(messageOriginal, modificationScript, messageFinal);
+    }
+    
+    {
+        String modificationScript = "call fixEscape();";
+        
+        String messageOriginal = "PID|||Q63W1^^^AIRA-TEST^MR||Holmes^Jeramiah^Z^IV^^^L|Monroe^Arden|20160626|M|||155 Lewis Cir^^Cadmus^MI^49221^USA^P||^PRN^PH^^^517^3004208|||||||||\n" +
+				     			 "PID|||Q63W1^^^AIRA-TEST^MR||Holmes^Jeramiah^Z^IV^^^L|Monroe^Arden|20160626|M|||155 Lewis Cir^^Cadmus^MI^49221^USA^P||^PRN^PH^^^517^3004208|";
+        String messageFinal =    "PID|||Q63W1^^^AIRA-TEST^MR||Holmes^Jeramiah^Z^IV^^^L|Monroe^Arden|20160626|M|||155 Lewis Cir^^Cadmus^MI^49221^USA^P||^PRN^PH^^^517^3004208|\n" +
+    			 				 "PID|||Q63W1^^^AIRA-TEST^MR||Holmes^Jeramiah^Z^IV^^^L|Monroe^Arden|20160626|M|||155 Lewis Cir^^Cadmus^MI^49221^USA^P||^PRN^PH^^^517^3004208|";
+        runTest(messageOriginal, modificationScript, messageFinal);
+    }
     
     
     
@@ -319,6 +355,23 @@ public class ModifyRequestTest extends TestCase {
         String messageOriginal = "PID|||Q63W1^^^AIRA-TEST^MR||Holmes^Jeramiah^Z^IV^^^L|Monroe^Arden|20160626|M|||155 Lewis Cir^^Cadmus^MI^49221^USA^P||^PRN^PH^^^517^3004208|\n" +
 				 				 "PD1||||||||||||||||||";
         String messageFinal =    "PID|||Q63W1^^^AIRA-TEST^MR||Holmes^Jeramiah^Z^IV^^^L|Monroe^Arden||M|||155 Lewis Cir^^Cadmus^MI^49221^USA^P||^PRN^PH^^^517^3004208|\n" +
+        						 "PD1||||||||||||||||||";
+        runTest(messageOriginal, modificationScript, messageFinal);
+    }
+    
+    {
+        String modificationScript = "for PID-7 if (PID-7 == \"20160625\") then call clear();";
+        String messageOriginal = "PID|||Q63W1^^^AIRA-TEST^MR||Holmes^Jeramiah^Z^IV^^^L|Monroe^Arden|20160626|M|||155 Lewis Cir^^Cadmus^MI^49221^USA^P||^PRN^PH^^^517^3004208|\n" +
+				 				 "PD1||||||||||||||||||";
+        String messageFinal =    "PID|||Q63W1^^^AIRA-TEST^MR||Holmes^Jeramiah^Z^IV^^^L|Monroe^Arden||M|||155 Lewis Cir^^Cadmus^MI^49221^USA^P||^PRN^PH^^^517^3004208|\n" +
+        						 "PD1||||||||||||||||||";
+        runTest(messageOriginal, modificationScript, messageFinal);
+    }
+    {
+        String modificationScript = "for PID-5.2 if (PID-5.2 == \"Jeramiah\") then call trunc(\"max\" => 2);";
+        String messageOriginal = "PID|||Q63W1^^^AIRA-TEST^MR||Holmes^Jeramiah^Z^IV^^^L|Monroe^Arden|20160626|M|||155 Lewis Cir^^Cadmus^MI^49221^USA^P||^PRN^PH^^^517^3004208|\n" +
+				 				 "PD1||||||||||||||||||";
+        String messageFinal =    "PID|||Q63W1^^^AIRA-TEST^MR||Holmes^Je^Z^IV^^^L|Monroe^Arden|20160626|M|||155 Lewis Cir^^Cadmus^MI^49221^USA^P||^PRN^PH^^^517^3004208|\n" +
         						 "PD1||||||||||||||||||";
         runTest(messageOriginal, modificationScript, messageFinal);
     }
