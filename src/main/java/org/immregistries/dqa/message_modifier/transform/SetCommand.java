@@ -38,7 +38,7 @@ public class SetCommand extends Command {
 
   }
 
-  private String setValueInHL7(String newValue, String resultText, ReferenceParsed t, ModifyRequest modifyRequest)
+  protected static String setValueInHL7(String newValue, String resultText, ReferenceParsed t, ModifyRequest modifyRequest)
       throws IOException {
 
     BufferedReader inResult = new BufferedReader(new StringReader(resultText));
