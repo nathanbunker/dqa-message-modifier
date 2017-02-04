@@ -29,7 +29,13 @@ public class TruncFunction implements CallFunction {
 				String resultText = modifyRequest.getMessageFinal();
 				String value = SetCommand.getValueFromHL7(resultText, targetReference, modifyRequest);
 				if (value.length() > max) {
-					String side = callCommand.getParameterMap().get(PARAM_SIDE).toUpperCase();
+					String side;
+					try{
+						side = callCommand.getParameterMap().get(PARAM_SIDE).toUpperCase();
+					}
+					catch(Exception e){
+						side = SIDE_LEFT;
+					}
 					if (side.equals(SIDE_RIGHT)) {
 						// trunc(4, right) Hello --> ello 
 						value = value.substring(value.length() - max);

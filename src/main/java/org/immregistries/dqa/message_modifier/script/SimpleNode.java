@@ -125,7 +125,9 @@ class SimpleNode implements Node {
               		String[] args_list = ((String) args.jjtGetValue()).split(",");
               	    Map<String, String> parameters = new HashMap<>();
               		for(int j = 0; j <args_list.length; j++){
-              			parameters.put(args_list[j].split("=>")[0], args_list[j].split("=>")[1]);
+              			String key = args_list[j].split("=>")[0].replace("\"", "").toUpperCase();
+              			String value = args_list[j].split("=>")[1].replace("\"", "").toUpperCase();
+              			parameters.put(key, value);
               		}
               		callCommand.setName(functionName);
               		callCommand.setParameterMap(parameters);
