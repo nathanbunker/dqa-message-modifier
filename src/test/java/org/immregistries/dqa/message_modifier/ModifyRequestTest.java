@@ -134,14 +134,14 @@ public class ModifyRequestTest extends TestCase {
         runTest(messageOriginal, modificationScript, messageFinal);
     }
     {
-        String modificationScript = "for $RXA-1 call trunc(\"Max\" => \"5\", \"side\"=>\"left\");";
+        String modificationScript = "for $RXA-1 call trunc(\"Max\" => \"5\", \"cut\"=>\"left\");";
         
         String messageOriginal = "RXA|0|1|20170104||133^PCV 13^CVX|0.5|mL^milliliters^UCUM||00^Administered^NIP001||||||Q8846RW||WAL^Wyeth^MVX||||A|";
         String messageFinal =    "RXA|0|1|20170104||133^PCV 13^CVX|0.5|mL^milliliters^UCUM||00^Administered^NIP001||||||Q8846RW||WAL^Wyeth^MVX||||A|";
         runTest(messageOriginal, modificationScript, messageFinal);
     }
     {
-        String modificationScript = "for $RXA-5.2 call trunc(\"MAX\" => \"1\", \"side\"=>\"right\");";
+        String modificationScript = "for $RXA-5.2 call trunc(\"MAX\" => \"1\", \"cut\"=>\"right\");";
         
         String messageOriginal = "RXA|0|1|20170104||133^PCV 13^CVX|0.5|mL^milliliters^UCUM||00^Administered^NIP001||||||Q8846RW||WAL^Wyeth^MVX||||A|";
         String messageFinal =    "RXA|0|1|20170104||133^3^CVX|0.5|mL^milliliters^UCUM||00^Administered^NIP001||||||Q8846RW||WAL^Wyeth^MVX||||A|";
@@ -149,7 +149,7 @@ public class ModifyRequestTest extends TestCase {
     }
     
     {
-        String modificationScript = "for $RXA-5.2 call trunc(\"MAX\" => \"1\", \"side\" => \"right\");";
+        String modificationScript = "for $RXA-5.2 call trunc(\"MAX\" => \"1\", \"cut\" => \"right\");";
         
         String messageOriginal = "RXA|0|1|20170104||133^PCV 13^CVX|0.5|mL^milliliters^UCUM||00^Administered^NIP001||||||Q8846RW||WAL^Wyeth^MVX||||A|";
         String messageFinal =    "RXA|0|1|20170104||133^3^CVX|0.5|mL^milliliters^UCUM||00^Administered^NIP001||||||Q8846RW||WAL^Wyeth^MVX||||A|";
@@ -161,8 +161,8 @@ public class ModifyRequestTest extends TestCase {
         String modificationScript = "for $PID call clear();";
         
         String messageOriginal = "PID|||Q63W1^^^AIRA-TEST^MR||Holmes^Jeramiah^Z^IV^^^L|Monroe^Arden|20160626|M|||155 Lewis Cir^^Cadmus^MI^49221^USA^P||^PRN^PH^^^517^3004208|";
-        String messageFinal =    "PID||||||||||||||";
-        //runTest(messageOriginal, modificationScript, messageFinal);
+        String messageFinal =    "PID|";
+        runTest(messageOriginal, modificationScript, messageFinal);
     }
     {
         String modificationScript = "for $PID-5 call clear();";
