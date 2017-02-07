@@ -6,6 +6,7 @@ import java.io.StringReader;
 import java.util.Map;
 
 import org.immregistries.dqa.message_modifier.ModifyRequest;
+import org.immregistries.dqa.message_modifier.legacy.Transform;
 
 public class SetCommand extends Command {
   private ReferenceParsed targetReference = null;
@@ -410,5 +411,160 @@ public class SetCommand extends Command {
     }
     return "";
   }
+  
+  public static String clearValueInHL7(String resultText, ReferenceParsed t) throws IOException {
+
+	    BufferedReader inResult = new BufferedReader(new StringReader(resultText));
+	    boolean foundBoundStart = false;
+	    boolean foundBoundEnd = false;
+	    int boundCount = 0;
+	    resultText = "";
+	    String lineResult;
+	    int repeatCount = 0;
+	    while ((lineResult = inResult.readLine()) != null) {
+	      lineResult = lineResult.trim();
+	      if (lineResult.length() > 0) {
+	        if (t.boundSegment != null && !foundBoundEnd) {
+	          boolean skip = false;
+	          if (lineResult.startsWith(t.boundSegment + "|")) {
+	            boundCount++;
+	            if (!foundBoundStart) {
+	              if (boundCount == t.boundRepeat) {
+	                foundBoundStart = true;
+	              }
+	            } else if (foundBoundStart) {
+	              foundBoundEnd = true;
+	            }
+	            skip = true;
+	          } else if (foundBoundStart) {
+	            if (!lineResult.startsWith(t.segmentName + "|")) {
+	              skip = true;
+	            }
+	          } else {
+	            skip = true;
+	          }
+	          if (skip) {
+	            resultText += lineResult + "\r";
+	            continue;
+	          }
+	        }
+	        if (lineResult.startsWith(t.segmentName + "|")) {
+	          repeatCount++;
+	          if (t.segmentRepeat == repeatCount) {
+	            if (t.fieldPos == 0) {
+	              lineResult = t.segmentName + "|";
+	            } else {
+	              int pos = lineResult.indexOf("|");
+	              int count = (lineResult.startsWith("MSH|") || lineResult.startsWith("FHS|") || lineResult.startsWith("BHS|")) ? 2 : 1;
+	              while (pos != -1 && count < t.fieldPos) {
+	                pos = lineResult.indexOf("|", pos + 1);
+	                count++;
+	              }
+	              if (pos != -1) {
+	                if (!t.fieldRepeatSet && !t.subfieldSet) {
+	                  int endPosBar = lineResult.indexOf("|", pos + 1);
+	                  if (endPosBar == -1) {
+	                    lineResult = lineResult.substring(0, pos) + "|";
+	                  } else {
+	                    lineResult = lineResult.substring(0, pos + 1) + lineResult.substring(endPosBar);
+	                  }
+	                } else {
+	                  boolean isMSH2 = ((lineResult.startsWith("MSH|") || lineResult.startsWith("FHS|") || lineResult.startsWith("BHS|")))
+	                      && t.fieldPos == 2;
+	                  count = 1;
+	                  pos++;
+	                  int tildePos = pos;
+	                  while (tildePos != -1 && count < t.fieldRepeat) {
+	                    int endPosTilde = isMSH2 ? -1 : lineResult.indexOf("^", tildePos);
+	                    int endPosBar = lineResult.indexOf("|", tildePos);
+	                    if (endPosBar == -1) {
+	                      endPosBar = lineResult.length();
+	                    }
+	                    if (endPosTilde == -1 || endPosTilde >= endPosBar) {
+	                      tildePos = -1;
+	                      pos = endPosBar;
+	                    } else {
+	                      tildePos = endPosTilde + 1;
+	                      pos = tildePos;
+	                      count++;
+	                    }
+	                  }
+	                  if (tildePos != -1) {
+	                    if (!t.subfieldSet) {
+	                      int endPosBar = lineResult.indexOf("|", pos);
+	                      if (endPosBar == -1) {
+	                        endPosBar = lineResult.length();
+	                      }
+	                      int endPosTilde = isMSH2 ? -1 : lineResult.indexOf("^", pos);
+	                      if (endPosTilde == -1) {
+	                        endPosTilde = lineResult.length();
+	                      }
+	                      if (endPosTilde < endPosBar) {
+	                        lineResult = lineResult.substring(0, pos) + lineResult.substring(endPosTilde);
+	                      } else {
+	                        lineResult = lineResult.substring(0, pos) + lineResult.substring(endPosBar);
+	                      }
+	                    } else if (t.subfieldPos == 0) {
+	                      int endPosBar = lineResult.indexOf("|", pos);
+	                      if (endPosBar == -1) {
+	                        endPosBar = lineResult.length();
+	                      }
+	                      int endPosTilde = isMSH2 ? -1 : lineResult.indexOf("~", pos);
+	                      if (endPosTilde == -1) {
+	                        endPosTilde = lineResult.length();
+	                      }
+	                      if (endPosTilde < endPosBar) {
+	                        lineResult = lineResult.substring(0, pos) + lineResult.substring(endPosTilde);
+	                      } else {
+	                        lineResult = lineResult.substring(0, pos) + lineResult.substring(endPosBar);
+	                      }
+	                    } else {
+	                      count = 1;
+	                      while (pos != -1 && count < t.subfieldPos) {
+	                        int posCaret = isMSH2 ? -1 : lineResult.indexOf("^", pos);
+	                        int endPosBar = lineResult.indexOf("|", pos);
+	                        if (endPosBar == -1) {
+	                          endPosBar = lineResult.length();
+	                        }
+	                        int endPosTilde = isMSH2 ? -1 : lineResult.indexOf("~", pos);
+	                        if (endPosTilde == -1) {
+	                          endPosTilde = lineResult.length();
+	                        }
+	                        if (posCaret == -1 || (posCaret > endPosBar || posCaret > endPosTilde)) {
+	                          pos = -1;
+	                          break;
+	                        } else {
+	                          pos = posCaret + 1;
+	                        }
+	                        count++;
+	                      }
+	                      if (pos != -1) {
+	                        int endPosBar = lineResult.indexOf("|", pos);
+	                        if (endPosBar == -1) {
+	                          endPosBar = lineResult.length();
+	                        }
+	                        int endPosCaret = isMSH2 ? -1 : lineResult.indexOf("^", pos);
+	                        int endPosRepeat = isMSH2 ? -1 : lineResult.indexOf("~", pos);
+	                        int endPos = endPosBar;
+	                        if (endPosRepeat != -1 && endPosRepeat < endPos) {
+	                          endPos = endPosRepeat;
+	                        }
+	                        if (endPosCaret != -1 && endPosCaret < endPos) {
+	                          endPos = endPosCaret;
+	                        }
+	                        lineResult = lineResult.substring(0, pos) + lineResult.substring(endPos);
+	                      }
+	                    }
+	                  }
+	                }
+	              }
+	            }
+	          }
+	        }
+	        resultText += lineResult + "\r";
+	      }
+	    }
+	    return resultText;
+	  }
 
 }

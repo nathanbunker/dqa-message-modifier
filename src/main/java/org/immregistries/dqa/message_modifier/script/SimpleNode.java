@@ -72,6 +72,7 @@ class SimpleNode implements Node {
             	  reference.setFieldRepeatAll(true);
               }else{
             	  reference.setFieldRepeat(Integer.parseInt((String) repeatSelector.jjtGetValue()));
+            	  reference.setFieldRepeatSet(true);
               }
           }
       }
@@ -81,6 +82,7 @@ class SimpleNode implements Node {
         	  // ignore, this is not valid
           }else{
         	  reference.setSubfieldPos(Integer.parseInt((String) subNum.jjtGetValue()));
+        	  reference.setSubfieldSet(true);
           }
           /*if(subNum.jjtGetNumChildren() > 0){
           	SimpleNode repetSelector = (SimpleNode) subNum.jjtGetChild(0);
@@ -122,16 +124,19 @@ class SimpleNode implements Node {
               		SimpleNode functionCall = (SimpleNode) n.jjtGetChild(1);
               		String functionName = (String) functionCall.jjtGetValue();
               		SimpleNode args = (SimpleNode) functionCall.jjtGetChild(0);
-              		String[] args_list = ((String) args.jjtGetValue()).split(",");
-              	    Map<String, String> parameters = new HashMap<>();
-              		for(int j = 0; j <args_list.length; j++){
-              			String key = args_list[j].split("=>")[0].replace("\"", "").toUpperCase();
-              			String value = args_list[j].split("=>")[1].replace("\"", "").toUpperCase();
-              			parameters.put(key, value);
+              		if(!args.jjtGetValue().equals("")){
+	              		String[] args_list = ((String) args.jjtGetValue()).split(",");
+	              	    Map<String, String> parameters = new HashMap<>();
+	              		for(int j = 0; j <args_list.length; j++){
+	              			String key = args_list[j].split("=>")[0].replace("\"", "").toUpperCase();
+	              			String value = args_list[j].split("=>")[1].replace("\"", "").toUpperCase();
+	              			parameters.put(key, value);
+	              		}
+	              		callCommand.setParameterMap(parameters);
               		}
               		callCommand.setName(functionName);
-              		callCommand.setParameterMap(parameters);
               		
+			  
               		command = callCommand;
               		break;
               		
