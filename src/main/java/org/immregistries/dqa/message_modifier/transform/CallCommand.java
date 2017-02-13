@@ -2,6 +2,7 @@ package org.immregistries.dqa.message_modifier.transform;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.immregistries.dqa.message_modifier.ModifyRequest;
@@ -20,7 +21,7 @@ public class CallCommand extends Command {
 	private ReferenceParsed targetReference = null;
 
 	private String name = "";
-	private Map<String, String> parameterMap = new HashMap<>();
+	private Map<String, String> parameterMap = new LinkedHashMap<>();
 
 	public ReferenceParsed getTargetReference() {
 		return targetReference;

@@ -10,7 +10,6 @@ import org.immregistries.dqa.message_modifier.transform.SetCommand;
 public class ClearFunction implements CallFunction {
 	
 	public void doTransform(ModifyRequest modifyRequest, CallCommand callCommand) throws IOException{
-		System.out.println("clear Function IN PROGRESS");
 
 		ReferenceParsed targetReference = callCommand.getTargetReference();
 		String resultText = modifyRequest.getMessageFinal();

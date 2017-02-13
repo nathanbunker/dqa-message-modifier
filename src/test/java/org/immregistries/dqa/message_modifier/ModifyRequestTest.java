@@ -118,10 +118,10 @@ public class ModifyRequestTest extends TestCase {
         runTest(messageOriginal, modificationScript, messageFinal);
     }
     {
-        String modificationScript = "for $RXA-1 call map(\"MMR\" => \"03\", \"Default\" => \"Unknown\");";
+        String modificationScript = "for $RXA-5.2 call map(\"PCV\" => \"ABC\", \"Default\" => \"Unknown\");";
         
         String messageOriginal = "RXA|0|1|20170104||133^PCV 13^CVX|0.5|mL^milliliters^UCUM||00^Administered^NIP001||||||Q8846RW||WAL^Wyeth^MVX||||A|";
-        String messageFinal =    "RXA|0|1|20170104||133^PCV 13^CVX|0.5|mL^milliliters^UCUM||00^Administered^NIP001||||||Q8846RW||WAL^Wyeth^MVX||||A|";
+        String messageFinal =    "RXA|0|1|20170104||133^ABC 13^CVX|0.5|mL^milliliters^UCUM||00^Administered^NIP001||||||Q8846RW||WAL^Wyeth^MVX||||A|";
         runTest(messageOriginal, modificationScript, messageFinal);
     }
     
@@ -144,7 +144,7 @@ public class ModifyRequestTest extends TestCase {
         String modificationScript = "for $RXA-5.2 call trunc(\"MAX\" => \"1\", \"cut\"=>\"right\");";
         
         String messageOriginal = "RXA|0|1|20170104||133^PCV 13^CVX|0.5|mL^milliliters^UCUM||00^Administered^NIP001||||||Q8846RW||WAL^Wyeth^MVX||||A|";
-        String messageFinal =    "RXA|0|1|20170104||133^3^CVX|0.5|mL^milliliters^UCUM||00^Administered^NIP001||||||Q8846RW||WAL^Wyeth^MVX||||A|";
+        String messageFinal =    "RXA|0|1|20170104||133^P^CVX|0.5|mL^milliliters^UCUM||00^Administered^NIP001||||||Q8846RW||WAL^Wyeth^MVX||||A|";
         runTest(messageOriginal, modificationScript, messageFinal);
     }
     
@@ -152,7 +152,7 @@ public class ModifyRequestTest extends TestCase {
         String modificationScript = "for $RXA-5.2 call trunc(\"MAX\" => \"1\", \"cut\" => \"right\");";
         
         String messageOriginal = "RXA|0|1|20170104||133^PCV 13^CVX|0.5|mL^milliliters^UCUM||00^Administered^NIP001||||||Q8846RW||WAL^Wyeth^MVX||||A|";
-        String messageFinal =    "RXA|0|1|20170104||133^3^CVX|0.5|mL^milliliters^UCUM||00^Administered^NIP001||||||Q8846RW||WAL^Wyeth^MVX||||A|";
+        String messageFinal =    "RXA|0|1|20170104||133^P^CVX|0.5|mL^milliliters^UCUM||00^Administered^NIP001||||||Q8846RW||WAL^Wyeth^MVX||||A|";
         runTest(messageOriginal, modificationScript, messageFinal);
     }
     // Clearing fields
