@@ -10,7 +10,7 @@ import org.immregistries.dqa.message_modifier.transform.SetCommand;
 public class TruncFunction implements CallFunction {
 
 	public static final String PARAM_MAX = "MAX";
-	public static final String PARAM_SIDE = "SIDE";
+	public static final String PARAM_CUT = "CUT";
 
 	public static final String SIDE_RIGHT = "RIGHT";
 	public static final String SIDE_LEFT = "LEFT";
@@ -31,7 +31,7 @@ public class TruncFunction implements CallFunction {
 				if (value.length() > max) {
 					String side;
 					try{
-						side = callCommand.getParameterMap().get(PARAM_SIDE).toUpperCase();
+						side = callCommand.getParameterMap().get(PARAM_CUT).toUpperCase();
 					}
 					catch(Exception e){
 						side = SIDE_LEFT;
@@ -43,9 +43,9 @@ public class TruncFunction implements CallFunction {
 						// trunc(4, left) Hello --> Hell
 						value = value.substring(0, max);
 					}
+					resultText = SetCommand.setValueInHL7(value, resultText, targetReference, modifyRequest);
+					modifyRequest.setMessageFinal(resultText);
 				}
-				resultText = SetCommand.setValueInHL7(value, resultText, targetReference, modifyRequest);
-				modifyRequest.setMessageFinal(resultText);
 			}
 		}
 	}

@@ -25,6 +25,37 @@ public class ReferenceParsed {
 	protected String boundSegment = null;
 	protected int boundRepeat = 1;
 	protected String testCaseId = null;
+	
+	@Override
+	public String toString() {
+		String reference = segmentName;
+		if (segmentRepeat > 1)
+		{
+			reference += "[" + segmentRepeat + "]";
+		}
+		if (fieldPos > 0)
+		{
+			reference += "-" + fieldPos;
+			if (fieldRepeatAll)
+			{
+				reference += "[*]";
+			}
+			else if (fieldRepeat > 1)
+			{
+				reference += "[" + fieldRepeat + "]";
+			}
+			if (subfieldPos > 1)
+			{
+				reference += "." + subfieldPos;
+				if (subsubfieldPos > 1)
+				{
+					reference += "." + subsubfieldPos;
+				}
+			}
+		}
+
+		return reference;
+	}
 
 	public String getSegmentName() {
 		return segmentName;

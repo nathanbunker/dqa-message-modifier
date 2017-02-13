@@ -32,6 +32,7 @@ public class CommandLine {
 		for (String s : finalMessage) {
 			bw.write(s);
 			bw.newLine();
+			System.out.println(s);
 		}
 		bw.close();
 	}
