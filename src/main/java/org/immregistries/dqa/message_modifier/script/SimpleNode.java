@@ -2,6 +2,7 @@ package org.immregistries.dqa.message_modifier.script;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -126,7 +127,7 @@ class SimpleNode implements Node {
               		SimpleNode args = (SimpleNode) functionCall.jjtGetChild(0);
               		if(!args.jjtGetValue().equals("")){
 	              		String[] args_list = ((String) args.jjtGetValue()).split(",");
-	              	    Map<String, String> parameters = new HashMap<>();
+	              	    Map<String, String> parameters = new LinkedHashMap<>();
 	              		for(int j = 0; j <args_list.length; j++){
 	              			String key = args_list[j].split("=>")[0].replace("\"", "").toUpperCase();
 	              			String value = args_list[j].split("=>")[1].replace("\"", "").toUpperCase();
