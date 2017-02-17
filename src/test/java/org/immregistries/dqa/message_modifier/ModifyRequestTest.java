@@ -8,6 +8,13 @@ import junit.framework.TestCase;
 public class ModifyRequestTest extends TestCase {
 	private int count=0;
   public void testInitial() {
+    // use context
+    {
+      String modificationScript = "use context::Immunization;";
+      String messageOriginal = "PID|||Q63W1^^^AIRA-TEST^MR||Holmes^Jeramiah^Z^IV^^^L|Monroe^Arden|20160626|M|||155 Lewis Cir^^Cadmus^MI^49221^USA^P||^PRN^PH^^^517^3004208|";
+      String messageFinal =    messageOriginal;
+      runTest(messageOriginal, modificationScript, messageFinal);
+    }
     // Assignments
     {
       String modificationScript = "PID-5=\"\";";

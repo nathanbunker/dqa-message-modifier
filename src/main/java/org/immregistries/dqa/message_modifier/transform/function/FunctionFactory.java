@@ -18,6 +18,7 @@ import org.immregistries.dqa.message_modifier.transform.function.general.TruncFu
 public class FunctionFactory {
 
 	public static final String CONTEXT_GENERAL = "general";
+	public static final String CONTEXT_IMMUNIZATION = "immunization";
 
 	private static final Map<String, Map<String, Class<? extends CallFunction>>> contextMap = new HashMap<>();
 	private static final Map<String, Class<? extends CallFunction>> generalFunctionMap = new HashMap<>();
@@ -42,8 +43,12 @@ public class FunctionFactory {
 
 	public CallFunction createFunction(String context, String name) throws InstantiationException, IllegalAccessException  {
 		Map<String, Class<? extends CallFunction>> functionMap = contextMap.get(context);
-		if (functionMap == null) {
-			throw new IllegalArgumentException("Unrecognized context '" + context + "'");
+		if (functionMap == null)
+		{
+		  functionMap = contextMap.get(CONTEXT_GENERAL);
+		  if (functionMap == null) {
+		    throw new IllegalArgumentException("Unrecognized context '" + context + "'");
+		  }
 		}
 		Class<? extends CallFunction> functionClass = functionMap.get(name);
 		if (functionClass == null) {
