@@ -8,7 +8,19 @@ import org.immregistries.dqa.message_modifier.transform.CallCommand;
 public class FixAmpersandFunction implements CallFunction {
 	
 	public void doTransform(ModifyRequest modifyRequest, CallCommand callCommand) throws IOException{
-		System.out.println("FixAmpersand Function TO DO");
+	    String resultText = modifyRequest.getMessageFinal();
+	    StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < resultText.length(); i++) {
+          char c = resultText.charAt(i);
+          if (i < 8 || c != '&') {
+            sb.append(c);
+          } else {
+            sb.append("\\T\\");
+          }
+        }
+        resultText = sb.toString();
+	    modifyRequest.setMessageFinal(resultText);
+
 	}
 
 }
