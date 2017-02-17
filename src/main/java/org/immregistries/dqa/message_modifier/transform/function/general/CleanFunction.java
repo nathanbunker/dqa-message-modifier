@@ -10,20 +10,18 @@ import org.immregistries.dqa.message_modifier.transform.CallCommand;
 public class CleanFunction implements CallFunction {
 	
 	public void doTransform(ModifyRequest modifyRequest, CallCommand callCommand) throws IOException{
-		System.out.println("Clean Function TO DO");
-		//String line = transformRequest.getLine();
 	    String resultText = modifyRequest.getMessageFinal();
-	    boolean noLastSlash = false;//line.toLowerCase().indexOf(CLEAN_NO_LAST_SLASH) != -1;
+	    Boolean noLastSlash = false;
+	    if(callCommand.getParameterMap().size() > 0){
+	    	noLastSlash = Boolean.valueOf(callCommand.getParameterMap().entrySet().iterator().next().getValue());
+	    }
 	    BufferedReader inResult = new BufferedReader(new StringReader(resultText));
 	    resultText = "";
 	    String lineResult;
-	    int repeatCount = 0;
 	    while ((lineResult = inResult.readLine()) != null) {
 	      lineResult = lineResult.trim();
 	      if (lineResult.length() > 0) {
 	        String finalLine = "";
-	        int writtenPos = 0;
-	        String possibleLine = "";
 
 	        String headerStart = null;
 	        if (lineResult.startsWith("MSH|^~\\&|") || lineResult.startsWith("BHS|^~\\&|") || lineResult.startsWith("FHS|^~\\&|")) {
