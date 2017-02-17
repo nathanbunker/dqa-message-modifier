@@ -14,7 +14,6 @@ public class ClearFunction implements CallFunction {
 		ReferenceParsed targetReference = callCommand.getTargetReference();
 		String resultText = modifyRequest.getMessageFinal();
 		resultText = SetCommand.clearValueInHL7(resultText, targetReference);
-		System.out.println(resultText);
 		modifyRequest.setMessageFinal(resultText);
 	}
 
