@@ -6,6 +6,8 @@ import java.util.Map;
 import org.immregistries.dqa.message_modifier.transform.function.general.CallFunction;
 import org.immregistries.dqa.message_modifier.transform.function.general.CleanFunction;
 import org.immregistries.dqa.message_modifier.transform.function.general.ClearFunction;
+import org.immregistries.dqa.message_modifier.transform.function.general.FixAmpersandFunction;
+import org.immregistries.dqa.message_modifier.transform.function.general.FixEscapeFunction;
 import org.immregistries.dqa.message_modifier.transform.function.general.InsertAfterFunction;
 import org.immregistries.dqa.message_modifier.transform.function.general.InsertBeforeFunction;
 import org.immregistries.dqa.message_modifier.transform.function.general.InsertFirstFunction;
@@ -30,6 +32,8 @@ public class FunctionFactory {
 		generalFunctionMap.put("insertafter", InsertAfterFunction.class);
 		generalFunctionMap.put("insterfirst", InsertFirstFunction.class);
 		generalFunctionMap.put("insterlast", InsertLastFunction.class);
+		generalFunctionMap.put("fixAmpersand", FixAmpersandFunction.class);
+		generalFunctionMap.put("fixEscape", FixEscapeFunction.class);
 	}
 
 	public CallFunction createFunction(String name)throws InstantiationException, IllegalAccessException  {
