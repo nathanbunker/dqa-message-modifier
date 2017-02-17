@@ -119,9 +119,9 @@ class SimpleNode implements Node {
               		break;
               		
               	case NewScriptTreeConstants.JJTFOR:
-              		CallCommand callCommand = new CallCommand();
+              		CallCommand forCommand = new CallCommand();
               		targetRef = getReference((SimpleNode) child.jjtGetChild(0));
-              		callCommand.setTargetReference(targetRef);
+              		forCommand.setTargetReference(targetRef);
               		SimpleNode functionCall = (SimpleNode) n.jjtGetChild(1);
               		String functionName = (String) functionCall.jjtGetValue();
               		SimpleNode args = (SimpleNode) functionCall.jjtGetChild(0);
@@ -136,11 +136,32 @@ class SimpleNode implements Node {
 	              				parameters.put(key, value);
 	              			}
 	              		}
-	              		callCommand.setParameterMap(parameters);
+	              		forCommand.setParameterMap(parameters);
               		}
-              		callCommand.setName(functionName);
+              		forCommand.setName(functionName);
               		
 			  
+              		command = forCommand;
+              		break;
+              		
+              	case NewScriptTreeConstants.JJTFUNCTION:
+              		CallCommand callCommand = new CallCommand();
+              		SimpleNode arguments = (SimpleNode) child.jjtGetChild(0);
+              		if(!arguments.jjtGetValue().equals("")){
+              			String[] args_list = ((String) arguments.jjtGetValue()).split(",");
+	              	    Map<String, String> parameters = new LinkedHashMap<>();
+	              		for(int j = 0; j <args_list.length; j++){
+	              			String[] s= args_list[j].split("=>");
+	              			if (s.length > 1) {
+	              				String key = s[0].replace("\"", "").toUpperCase();
+	              				String value = s[1].replace("\"", "");
+	              				parameters.put(key, value);
+	              			}
+	              		}
+	              		callCommand.setParameterMap(parameters);
+              		}
+              		callCommand.setName((String) child.jjtGetValue());
+              		
               		command = callCommand;
               		break;
               		
