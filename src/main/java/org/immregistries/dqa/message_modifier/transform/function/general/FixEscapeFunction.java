@@ -9,6 +9,7 @@ public class FixEscapeFunction implements CallFunction {
 	
 	public void doTransform(ModifyRequest modifyRequest, CallCommand callCommand) throws IOException{
 		String resultText = modifyRequest.getMessageFinal();
+		if (resultText.length() > 9) {
         StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < resultText.length(); i++) {
 	          char c = resultText.charAt(i);
@@ -25,5 +26,5 @@ public class FixEscapeFunction implements CallFunction {
 	        resultText = sb.toString();
 	    modifyRequest.setMessageFinal(resultText);
 	}
-
+	}
 }
