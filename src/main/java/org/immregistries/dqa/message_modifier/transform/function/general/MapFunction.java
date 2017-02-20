@@ -32,7 +32,6 @@ public class MapFunction implements CallFunction {
 			    modifyRequest.setMessageFinal(resultText);
 		    }
 		    if (mapPos != -1) {
-		    	System.out.println("index "+value.indexOf(key));
 		    	int startIndex = value.indexOf(key);
 		    	int endIndex = startIndex + key.length();
 		    	String value1 = value.substring(0, startIndex);

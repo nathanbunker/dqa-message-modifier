@@ -137,6 +137,7 @@ String useCommand() #USE_COMMAND :
   <CONTEXT_SELECTOR>
   token2 = <UNQUOTED_STRING>
       {
+      	jjtThis.value = token.image+"_"+token2.image;
         s = "use " + token.image + " :: " + token2.image;
         return s;
       }

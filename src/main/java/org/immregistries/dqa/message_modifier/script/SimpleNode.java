@@ -165,6 +165,19 @@ class SimpleNode implements Node {
               		command = callCommand;
               		break;
               		
+              	case NewScriptTreeConstants.JJTUSE_COMMAND:
+              		String[] use = ((String) child.jjtGetValue()).split("_");
+              		
+              		if(use[0].equals("context")){
+              			String context = use[1];
+              			System.out.println("Context : "+use[1]);
+              		}
+              		else {
+              			String scenario = use[1];
+              			System.out.println("Scenario : "+use[1]);
+              		}
+              		break;
+              		
               	default:
               		command = null;
               		break;

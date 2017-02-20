@@ -29,10 +29,10 @@ public class FunctionFactory {
 		generalFunctionMap.put("trunc", TruncFunction.class);
 		generalFunctionMap.put("clear", ClearFunction.class);
 		generalFunctionMap.put("clean", CleanFunction.class);
-		generalFunctionMap.put("insertbefore", InsertBeforeFunction.class);
-		generalFunctionMap.put("insertafter", InsertAfterFunction.class);
-		generalFunctionMap.put("insterfirst", InsertFirstFunction.class);
-		generalFunctionMap.put("insterlast", InsertLastFunction.class);
+		generalFunctionMap.put("insertBefore", InsertBeforeFunction.class);
+		generalFunctionMap.put("insertAfter", InsertAfterFunction.class);
+		generalFunctionMap.put("insertFirst", InsertFirstFunction.class);
+		generalFunctionMap.put("insertLast", InsertLastFunction.class);
 		generalFunctionMap.put("fixAmpersand", FixAmpersandFunction.class);
 		generalFunctionMap.put("fixEscape", FixEscapeFunction.class);
 	}

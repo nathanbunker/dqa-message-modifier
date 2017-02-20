@@ -4,6 +4,8 @@ USER_CHAR_STREAM = false;
 STATIC = false;
 }
 PARSER_BEGIN(NewScript)
+import org.immregistries.dqa.message_modifier.script.*;
+
 
 /** New line translator. */
 public class NewScript/*@bgen(jjtree)*/implements NewScriptTreeConstants/*@egen*/ {/*@bgen(jjtree)*/
@@ -214,6 +216,7 @@ String useCommand()              :
       }
 /*@egen*/
       {
+      	jjtn000.value = token.image+"_"+token2.image;
         s = "use " + token.image + " :: " + token2.image;
         return s;
       }/*@bgen(jjtree)*/

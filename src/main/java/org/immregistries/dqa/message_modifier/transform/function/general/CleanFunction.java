@@ -13,7 +13,7 @@ public class CleanFunction implements CallFunction {
 	    String resultText = modifyRequest.getMessageFinal();
 	    Boolean noLastSlash = false;
 	    if(callCommand.getParameterMap().size() > 0){
-	    	noLastSlash = Boolean.valueOf(callCommand.getParameterMap().entrySet().iterator().next().getValue());
+	    	noLastSlash = Boolean.valueOf(callCommand.getParameterMap().get("NO LAST SLASH"));
 	    }
 	    BufferedReader inResult = new BufferedReader(new StringReader(resultText));
 	    resultText = "";
