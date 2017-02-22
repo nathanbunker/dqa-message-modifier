@@ -11,21 +11,17 @@ import org.immregistries.dqa.message_modifier.transform.ReferenceParsed;
 public class InsertBeforeFunction implements CallFunction {
 	
 	public void doTransform(ModifyRequest modifyRequest, CallCommand callCommand) throws IOException{
-		System.out.println("InsertBefore Function TO DO");
 		String resultText = modifyRequest.getMessageFinal();
 		ReferenceParsed targetReference = callCommand.getTargetReference();
 		
 		String segID = callCommand.getParameterMap().get("SEGMENT ID");
-		String segmentToAdd = segID + "|";
+		// String segmentToAdd = segID + "|";
 
         BufferedReader inResult = new BufferedReader(new StringReader(resultText));
-        resultText = "";
+        resultText = segID + "|";
         String line = inResult.readLine();
         
         while(line != null){
-        	if(line.startsWith(targetReference.getSegmentName())){
-        		resultText += segmentToAdd + "\n";
-        	}
         	resultText += line + "\n";
         	line = inResult.readLine();
         }
