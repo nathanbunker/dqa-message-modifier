@@ -8,8 +8,7 @@ import org.immregistries.dqa.message_modifier.ModifyRequest;
 import org.immregistries.dqa.message_modifier.transform.CallCommand;
 import org.immregistries.dqa.message_modifier.transform.ReferenceParsed;
 
-public class InsertBeforeFunction implements CallFunction {
-	
+public class InsertBeforeFunction implements CallFunction {	
 	public void doTransform(ModifyRequest modifyRequest, CallCommand callCommand) throws IOException{
 		System.out.println("InsertBefore Function TO DO");
 		String resultText = modifyRequest.getMessageFinal();
@@ -32,5 +31,4 @@ public class InsertBeforeFunction implements CallFunction {
         resultText = resultText.substring(0, resultText.length()-1);
 		modifyRequest.setMessageFinal(resultText);
 	}
-
 }
