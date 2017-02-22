@@ -15,17 +15,8 @@ public class InsertLastFunction implements CallFunction {
 		ReferenceParsed targetReference = callCommand.getTargetReference();
 		
 		String segID = callCommand.getParameterMap().get("SEGMENT ID");
-		// String segmentToAdd = segID + "|";
-
-        BufferedReader inResult = new BufferedReader(new StringReader(resultText));
-        resultText = "";
-        String line = inResult.readLine();
+        resultText = resultText + "\n"+ segID + "|" + "\n";    
         
-        while(line != null){
-        	resultText += line + "\n";
-        	line = inResult.readLine();
-        }
-        resultText += segID + "|";
         resultText = resultText.substring(0, resultText.length()-1);
 		modifyRequest.setMessageFinal(resultText);
 	}
