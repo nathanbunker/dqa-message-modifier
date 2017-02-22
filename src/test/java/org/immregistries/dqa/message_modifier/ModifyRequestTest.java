@@ -336,7 +336,7 @@ public class ModifyRequestTest extends TestCase {
         runTest(messageOriginal, modificationScript, messageFinal);
     } 
     {
-        String modificationScript = "call insertFirst(\"Segment Id\" => \"BHS\", \"copy values from MSH\" => \"true\")";        
+        String modificationScript = "call insertFirst(\"Segment Id\" => \"BHS\", \"copy values from MSH\" => \"true\");";        
         String messageOriginal =    "PD1|||||||||||02^Reminder/Recall - any method^HL70215|N|20161204|||A|20161204|20161204\n" +
 								    "MSH|1|Wilson^Beckham^Marion^^^^L|MTH^Mother^HL70063|274 Simmingsen Cir^^Simplicity Pattern^MI^49121^USA^P|^PRN^PH^^^269^6751060\n" +
 								    "ORC|RE|AJ68O9.1^AIRA|BJ68O9.1^AIRA\n" +
@@ -373,10 +373,10 @@ public class ModifyRequestTest extends TestCase {
     // If then else
     
     {
-        String modificationScript = "for $PID if (PID-7 == \"20160626\") then call clear();";
+        String modificationScript = "for $PID if(PID-7 == \"20160626\") then call clear();";
         String messageOriginal = "PID|||Q63W1^^^AIRA-TEST^MR||Holmes^Jeramiah^Z^IV^^^L|Monroe^Arden|20160626|M|||155 Lewis Cir^^Cadmus^MI^49221^USA^P||^PRN^PH^^^517^3004208|\n" +
 				 				 "PD1||||||||||||||||||";
-        String messageFinal =    "PID||||||||||||||\n" +
+        String messageFinal =    "PID|\n" +
         						 "PD1||||||||||||||||||";
         runTest(messageOriginal, modificationScript, messageFinal);
     }
@@ -398,7 +398,7 @@ public class ModifyRequestTest extends TestCase {
     }
     {
         String modificationScript = "for $PID-7 if (PID-7 == \"20160625\") then call clear();";
-        String messageOriginal = "PID|||Q63W1^^^AIRA-TEST^MR||Holmes^Jeramiah^Z^IV^^^L|Monroe^Arden|20160626|M|||155 Lewis Cir^^Cadmus^MI^49221^USA^P||^PRN^PH^^^517^3004208|\n" +
+        String messageOriginal = "PID|||Q63W1^^^AIRA-TEST^MR||Holmes^Jeramiah^Z^IV^^^L|Monroe^Arden|20160625|M|||155 Lewis Cir^^Cadmus^MI^49221^USA^P||^PRN^PH^^^517^3004208|\n" +
 				 				 "PD1||||||||||||||||||";
         String messageFinal =    "PID|||Q63W1^^^AIRA-TEST^MR||Holmes^Jeramiah^Z^IV^^^L|Monroe^Arden||M|||155 Lewis Cir^^Cadmus^MI^49221^USA^P||^PRN^PH^^^517^3004208|\n" +
         						 "PD1||||||||||||||||||";
@@ -409,12 +409,12 @@ public class ModifyRequestTest extends TestCase {
         String modificationScript = "for $PID-7 if (PID-7 == \"20160625\") then call clear();";
         String messageOriginal = "PID|||Q63W1^^^AIRA-TEST^MR||Holmes^Jeramiah^Z^IV^^^L|Monroe^Arden|20160626|M|||155 Lewis Cir^^Cadmus^MI^49221^USA^P||^PRN^PH^^^517^3004208|\n" +
 				 				 "PD1||||||||||||||||||";
-        String messageFinal =    "PID|||Q63W1^^^AIRA-TEST^MR||Holmes^Jeramiah^Z^IV^^^L|Monroe^Arden||M|||155 Lewis Cir^^Cadmus^MI^49221^USA^P||^PRN^PH^^^517^3004208|\n" +
+        String messageFinal =    "PID|||Q63W1^^^AIRA-TEST^MR||Holmes^Jeramiah^Z^IV^^^L|Monroe^Arden|20160626|M|||155 Lewis Cir^^Cadmus^MI^49221^USA^P||^PRN^PH^^^517^3004208|\n" +
         						 "PD1||||||||||||||||||";
         runTest(messageOriginal, modificationScript, messageFinal);
     }
     {
-        String modificationScript = "for $PID-5.2 if (PID-5.2 == \"Jeramiah\") then call trunc(\"max\" => 2);";
+        String modificationScript = "for $PID-5.2 if (PID-5.2 == \"Jeramiah\") then call trunc(\"max\" => \"2\");";
         String messageOriginal = "PID|||Q63W1^^^AIRA-TEST^MR||Holmes^Jeramiah^Z^IV^^^L|Monroe^Arden|20160626|M|||155 Lewis Cir^^Cadmus^MI^49221^USA^P||^PRN^PH^^^517^3004208|\n" +
 				 				 "PD1||||||||||||||||||";
         String messageFinal =    "PID|||Q63W1^^^AIRA-TEST^MR||Holmes^Je^Z^IV^^^L|Monroe^Arden|20160626|M|||155 Lewis Cir^^Cadmus^MI^49221^USA^P||^PRN^PH^^^517^3004208|\n" +

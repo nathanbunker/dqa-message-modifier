@@ -27,7 +27,7 @@ public class ModifierService {
       SimpleNode n = parser.ExpressionList();
       n.testPrint();
       
-      commandList = n.createCommandList();
+      commandList = n.createCommandList(messageText);
       
       // Need to generate a list of commands
 

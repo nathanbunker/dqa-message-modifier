@@ -1,11 +1,14 @@
 package org.immregistries.dqa.message_modifier.script;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.immregistries.dqa.message_modifier.ModifyRequest;
 import org.immregistries.dqa.message_modifier.transform.Command;
 import org.immregistries.dqa.message_modifier.transform.ReferenceParsed;
 import org.immregistries.dqa.message_modifier.transform.SetCommand;
@@ -92,95 +95,167 @@ class SimpleNode implements Node {
       }
       return reference;
   }
+  
+  public Command createCommand(SimpleNode child, ReferenceParsed targetRef){
+	  Command command = null;
+	  SimpleNode n = (SimpleNode) child.jjtGetParent();
+	  switch(child.id) {
+    	case NewScriptTreeConstants.JJTASSIGNMENT:
+    		SetCommand setCommand = new SetCommand();
+    		targetRef = getReference(child);
+          SimpleNode statement = (SimpleNode) child.jjtGetChild(1);
+          if(statement.jjtGetNumChildren() > 0){
+          	ReferenceParsed sourceRef = getReference((SimpleNode) statement.jjtGetChild(0));
+              setCommand.setSourceReference(sourceRef);
+          }else{
+              String value = (String) statement.jjtGetValue();
+              value = value.replace("\"", "");
+              setCommand.setStringValue(value);
+          }     
+          setCommand.setTargetReference(targetRef);
+          command = setCommand;
+    		break;
+    		
+    	case NewScriptTreeConstants.JJTFOR:
+    		CallCommand forCommand = new CallCommand();
+    		targetRef = getReference((SimpleNode) child.jjtGetChild(0));
+    		forCommand.setTargetReference(targetRef);
+    		SimpleNode functionCall = (SimpleNode) n.jjtGetChild(1);
+    		String functionName = (String) functionCall.jjtGetValue();
+    		SimpleNode args = (SimpleNode) functionCall.jjtGetChild(0);
+    		try{
+    			if(!args.jjtGetValue().equals("")){
+            		String[] args_list = ((String) args.jjtGetValue()).split(",");
+            	    Map<String, String> parameters = new LinkedHashMap<>();
+            		for(int j = 0; j <args_list.length; j++){
+            			String[] s= args_list[j].split("=>");
+            			if (s.length > 1) {
+            				String key = s[0].replace("\"", "").toUpperCase();
+            				String value = s[1].replace("\"", "");
+            				parameters.put(key, value);
+            			}
+            		}
+            		forCommand.setParameterMap(parameters);
+        		}
+    		}catch(Exception e){
+    			System.out.println("Error :"+e);
+    		}
+		
+    		forCommand.setName(functionName);
 
-  public List<Command> createCommandList() {
+    		command = forCommand;
+    		break;
+    		
+    	case NewScriptTreeConstants.JJTFUNCTION:
+    		CallCommand callCommand = new CallCommand();
+    		SimpleNode arguments = (SimpleNode) child.jjtGetChild(0);
+    		if(!arguments.jjtGetValue().equals("")){
+    			String[] args_list = ((String) arguments.jjtGetValue()).split(",");
+        	    Map<String, String> parameters = new LinkedHashMap<>();
+        		for(int j = 0; j <args_list.length; j++){
+        			String[] s= args_list[j].split("=>");
+        			if (s.length > 1) {
+        				String key = s[0].replace("\"", "").toUpperCase();
+        				String value = s[1].replace("\"", "");
+        				parameters.put(key, value);
+        			}
+        		}
+        		callCommand.setParameterMap(parameters);
+    		}
+    		callCommand.setName((String) child.jjtGetValue());
+    		
+    		command = callCommand;
+    		break;
+    		
+    	case NewScriptTreeConstants.JJTUSE_COMMAND:
+    		String[] use = ((String) child.jjtGetValue()).split("_");
+    		
+    		if(use[0].equals("context")){
+    			String context = use[1];
+    			System.out.println("Context : "+use[1]);
+    		}
+    		else {
+    			String scenario = use[1];
+    			System.out.println("Scenario : "+use[1]);
+    		}
+    		break;
+    		
+    	case NewScriptTreeConstants.JJTIF:
+    		System.out.println("coucou");
+    		break;
+    		
+    	default:
+    		command = null;
+    		break;
+	  }
+	  return command;
+  }
+
+  public List<Command> createCommandList(String resultText) {
 	  List<Command> commandList = new ArrayList<>();
 	  ReferenceParsed targetRef = new ReferenceParsed();
 	  for (int i = 0; i < children.length; ++i) {
 		  SimpleNode n = (SimpleNode)children[i];
 		  if(n.id == 1) {
-			  SimpleNode child = (SimpleNode) n.children[0];
 			  Command command = null;
-			  switch(child.id) {
-              	case NewScriptTreeConstants.JJTASSIGNMENT:
-              		SetCommand setCommand = new SetCommand();
-              		targetRef = getReference(child);
-                    SimpleNode statement = (SimpleNode) child.jjtGetChild(1);
-                    if(statement.jjtGetNumChildren() > 0){
-                    	ReferenceParsed sourceRef = getReference((SimpleNode) statement.jjtGetChild(0));
-                        setCommand.setSourceReference(sourceRef);
-	                }else{
-	                    String value = (String) statement.jjtGetValue();
-	                    value = value.replace("\"", "");
-	                    setCommand.setStringValue(value);
-                    }     
-                    setCommand.setTargetReference(targetRef);
-                    command = setCommand;
-              		break;
-              		
-              	case NewScriptTreeConstants.JJTFOR:
-              		CallCommand forCommand = new CallCommand();
-              		targetRef = getReference((SimpleNode) child.jjtGetChild(0));
-              		forCommand.setTargetReference(targetRef);
-              		SimpleNode functionCall = (SimpleNode) n.jjtGetChild(1);
-              		String functionName = (String) functionCall.jjtGetValue();
-              		SimpleNode args = (SimpleNode) functionCall.jjtGetChild(0);
-              		if(!args.jjtGetValue().equals("")){
-	              		String[] args_list = ((String) args.jjtGetValue()).split(",");
-	              	    Map<String, String> parameters = new LinkedHashMap<>();
-	              		for(int j = 0; j <args_list.length; j++){
-	              			String[] s= args_list[j].split("=>");
-	              			if (s.length > 1) {
-	              				String key = s[0].replace("\"", "").toUpperCase();
-	              				String value = s[1].replace("\"", "");
-	              				parameters.put(key, value);
-	              			}
-	              		}
-	              		forCommand.setParameterMap(parameters);
-              		}
-              		forCommand.setName(functionName);
-              		
-			  
-              		command = forCommand;
-              		break;
-              		
-              	case NewScriptTreeConstants.JJTFUNCTION:
-              		CallCommand callCommand = new CallCommand();
-              		SimpleNode arguments = (SimpleNode) child.jjtGetChild(0);
-              		if(!arguments.jjtGetValue().equals("")){
-              			String[] args_list = ((String) arguments.jjtGetValue()).split(",");
-	              	    Map<String, String> parameters = new LinkedHashMap<>();
-	              		for(int j = 0; j <args_list.length; j++){
-	              			String[] s= args_list[j].split("=>");
-	              			if (s.length > 1) {
-	              				String key = s[0].replace("\"", "").toUpperCase();
-	              				String value = s[1].replace("\"", "");
-	              				parameters.put(key, value);
-	              			}
-	              		}
-	              		callCommand.setParameterMap(parameters);
-              		}
-              		callCommand.setName((String) child.jjtGetValue());
-              		
-              		command = callCommand;
-              		break;
-              		
-              	case NewScriptTreeConstants.JJTUSE_COMMAND:
-              		String[] use = ((String) child.jjtGetValue()).split("_");
-              		
-              		if(use[0].equals("context")){
-              			String context = use[1];
-              			System.out.println("Context : "+use[1]);
-              		}
-              		else {
-              			String scenario = use[1];
-              			System.out.println("Scenario : "+use[1]);
-              		}
-              		break;
-              		
-              	default:
-              		command = null;
-              		break;
+			  SimpleNode child = (SimpleNode) n.children[0];
+
+			  if(n.jjtGetNumChildren() > 1){
+				  SimpleNode nextChild = (SimpleNode) n.children[1];
+				  if(child.id == NewScriptTreeConstants.JJTFOR && nextChild.id == NewScriptTreeConstants.JJTIF){
+					CallCommand forCommand = new CallCommand();
+		    		targetRef = getReference((SimpleNode) child.jjtGetChild(0));
+		    		forCommand.setTargetReference(targetRef);
+		    		SimpleNode ifNode = (SimpleNode) n.jjtGetChild(1);
+		    		
+		    		SimpleNode functionCall = (SimpleNode) ifNode.jjtGetChild(0);
+		    		int cpt = 0;
+		    		while(functionCall.id != NewScriptTreeConstants.JJTFUNCTION){
+		    			cpt++;
+		    			functionCall = (SimpleNode) ifNode.jjtGetChild(cpt);
+		    		}
+		    		String functionName = (String) functionCall.jjtGetValue();
+		    		SimpleNode args = (SimpleNode) functionCall.jjtGetChild(0);
+		    		try{
+		    			if(!args.jjtGetValue().equals("")){
+		            		String[] args_list = ((String) args.jjtGetValue()).split(",");
+		            	    Map<String, String> parameters = new LinkedHashMap<>();
+		            		for(int j = 0; j <args_list.length; j++){
+		            			String[] s= args_list[j].split("=>");
+		            			if (s.length > 1) {
+		            				String key = s[0].replace("\"", "").toUpperCase();
+		            				String value = s[1].replace("\"", "");
+		            				parameters.put(key, value);
+		            			}
+		            		}
+		            		forCommand.setParameterMap(parameters);
+		        		}
+		    		}catch(Exception e){
+		    			System.out.println("Error :"+e);
+		    		}
+	    		
+		    		forCommand.setName(functionName);
+	
+		    		String valueToTest = (String) ifNode.jjtGetValue();
+		    		valueToTest = valueToTest.substring(1, valueToTest.length()-1);
+		    		ReferenceParsed ref = getReference(ifNode);
+		    		
+		    		ModifyRequest modify = null;
+		    		String valueToTest2;
+					try {
+						valueToTest2 = (String) SetCommand.getValueFromHL7(resultText, ref, modify);
+			    		if(valueToTest.equals(valueToTest2)){
+				    		command = forCommand;
+			    		}
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+		    		
+				  }else{
+					  command = createCommand(child, targetRef);
+				  }
+			  }else{
+				  command = createCommand(child, targetRef);
 			  }
 			  commandList.add(command);
 		  }

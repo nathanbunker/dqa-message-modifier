@@ -64,6 +64,10 @@ TOKEN :
   < GREATER_THAN: ">" >
 |
   < LESSER_THAN: "<" >
+|
+  < LEFT_PARENTHESIS: "(" >
+|
+  < RIGHT_PARENTHESIS: ")" >
 }
 SimpleNode ExpressionList() #EXPRESSIONS :
 {
@@ -106,9 +110,9 @@ String command() #COMMAND :
       {
           s += string;
       }
-      )?
-      (
-          string = assignment()
+      |
+      	(   
+      	  string = assignment()
           {
               s += string;  
           }
@@ -116,6 +120,7 @@ String command() #COMMAND :
             {
               s += string;
             }
+      	)
       )
   )
   | s = useCommand()
@@ -166,16 +171,28 @@ String ifCommand() #IF:
 }
 {
     <IF>
+    <LEFT_PARENTHESIS>
     (
-        ref = reference()
-        {
-            s = "if" + "(" + ref + ")";
-        }
+        (
+        	ref = reference()
+        	{
+            	s = "if" + "(" + ref + ")";
+        	}
+        	(
+        		comp = comparison() token = <STRING>
+        		{
+        			s = "if (" + ref + " " + comp + " " + token.image + ")";
+        			jjtThis.value = token.image;
+        		}
+        	)?
+        )
         | token = <STRING> comp = comparison() token2 = <STRING>
           {
             s = "if" + "(" + token.image + comp + token.image + ")";
+            jjtThis.value = token.image + "_" + token2.image;
           }
     )
+    <RIGHT_PARENTHESIS>
     <THEN>
     func = functionCall()
     {
@@ -196,6 +213,7 @@ String comparison() #COMP:
     | token = <LESSER_THAN>
     )
     {
+    	jjtThis.value = token.image;
         return token.image;
     }
 }
@@ -292,11 +310,11 @@ String functionCall() #FUNCTION:
   String s;
 }
 {
-    <CALL>
+  <CALL>
   name = <UNQUOTED_STRING>
-  "("
+  <LEFT_PARENTHESIS>
   s=arguments()
-  ")"
+  <RIGHT_PARENTHESIS>
     {
       jjtThis.value = name.image;
       return name.image+"("+s+")";

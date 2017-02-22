@@ -40,6 +40,10 @@ public interface NewScriptConstants {
   int GREATER_THAN = 18;
   /** RegularExpression Id. */
   int LESSER_THAN = 19;
+  /** RegularExpression Id. */
+  int LEFT_PARENTHESIS = 20;
+  /** RegularExpression Id. */
+  int RIGHT_PARENTHESIS = 21;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -66,13 +70,13 @@ public interface NewScriptConstants {
     "\"!=\"",
     "\">\"",
     "\"<\"",
+    "\"(\"",
+    "\")\"",
     "\";\"",
     "\"=\"",
     "\"$\"",
     "\"-\"",
     "\".\"",
-    "\"(\"",
-    "\")\"",
     "\"=>\"",
     "\",\"",
     "\"[\"",

@@ -70,6 +70,10 @@ TOKEN :
   < GREATER_THAN: ">" >
 |
   < LESSER_THAN: "<" >
+|
+  < LEFT_PARENTHESIS: "(" >
+|
+  < RIGHT_PARENTHESIS: ")" >
 }
 SimpleNode ExpressionList()              :
 {/*@bgen(jjtree) EXPRESSIONS */
@@ -149,9 +153,9 @@ String command()          :
       {
           s += string;
       }
-      )?
-      (
-          string = assignment()
+      |
+      	(   
+      	  string = assignment()
           {
               s += string;  
           }
@@ -159,6 +163,7 @@ String command()          :
             {
               s += string;
             }
+      	)
       )
   )
   | s = useCommand()
@@ -288,16 +293,28 @@ String ifCommand()    :
     try {
 /*@egen*/
     <IF>
+    <LEFT_PARENTHESIS>
     (
-        ref = reference()
-        {
-            s = "if" + "(" + ref + ")";
-        }
+        (
+        	ref = reference()
+        	{
+            	s = "if" + "(" + ref + ")";
+        	}
+        	(
+        		comp = comparison() token = <STRING>
+        		{
+        			s = "if (" + ref + " " + comp + " " + token.image + ")";
+        			jjtn000.value = token.image;
+        		}
+        	)?
+        )
         | token = <STRING> comp = comparison() token2 = <STRING>
           {
             s = "if" + "(" + token.image + comp + token.image + ")";
+            jjtn000.value = token.image + "_" + token2.image;
           }
     )
+    <RIGHT_PARENTHESIS>
     <THEN>
     func = functionCall()/*@bgen(jjtree)*/
     {
@@ -615,13 +632,13 @@ String functionCall()          :
   String s;
 }
 {/*@bgen(jjtree) FUNCTION */
-    try {
+  try {
 /*@egen*/
-    <CALL>
+  <CALL>
   name = <UNQUOTED_STRING>
-  "("
+  <LEFT_PARENTHESIS>
   s=arguments()
-  ")"/*@bgen(jjtree)*/
+  <RIGHT_PARENTHESIS>/*@bgen(jjtree)*/
     {
       jjtree.closeNodeScope(jjtn000, true);
       jjtc000 = false;
@@ -631,25 +648,25 @@ String functionCall()          :
       jjtn000.value = name.image;
       return name.image+"("+s+")";
     }/*@bgen(jjtree)*/
-    } catch (Throwable jjte000) {
-      if (jjtc000) {
-        jjtree.clearNodeScope(jjtn000);
-        jjtc000 = false;
-      } else {
-        jjtree.popNode();
-      }
-      if (jjte000 instanceof RuntimeException) {
-        throw (RuntimeException)jjte000;
-      }
-      if (jjte000 instanceof ParseException) {
-        throw (ParseException)jjte000;
-      }
-      throw (Error)jjte000;
-    } finally {
-      if (jjtc000) {
-        jjtree.closeNodeScope(jjtn000, true);
-      }
+  } catch (Throwable jjte000) {
+    if (jjtc000) {
+      jjtree.clearNodeScope(jjtn000);
+      jjtc000 = false;
+    } else {
+      jjtree.popNode();
     }
+    if (jjte000 instanceof RuntimeException) {
+      throw (RuntimeException)jjte000;
+    }
+    if (jjte000 instanceof ParseException) {
+      throw (ParseException)jjte000;
+    }
+    throw (Error)jjte000;
+  } finally {
+    if (jjtc000) {
+      jjtree.closeNodeScope(jjtn000, true);
+    }
+  }
 /*@egen*/
 }
 
