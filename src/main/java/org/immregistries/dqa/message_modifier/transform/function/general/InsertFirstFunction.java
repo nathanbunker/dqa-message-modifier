@@ -14,19 +14,27 @@ public class InsertFirstFunction implements CallFunction {
 		String resultText = modifyRequest.getMessageFinal();
 		ReferenceParsed targetReference = callCommand.getTargetReference();
 		
-		String segID = callCommand.getParameterMap().get("SEGMENT ID");
-		// String segmentToAdd = segID + "|";
-
-        BufferedReader inResult = new BufferedReader(new StringReader(resultText));
-        resultText = segID + "|";
-        String line = inResult.readLine();
-        
-        while(line != null){
-        	resultText += line + "\n";
-        	line = inResult.readLine();
-        }
-        resultText = resultText.substring(0, resultText.length()-1);
+		String segIDToInsert = callCommand.getParameterMap().get("SEGMENT ID");
+		String segIDToCopyFrom = callCommand.getParameterMap().get("COPY VALUES FROM");
+		
+		 if(callCommand.getParameterMap().containsKey("COPY VALUES FROM")){
+			
+			BufferedReader inResult = new BufferedReader(new StringReader(resultText));
+	        String line = inResult.readLine();
+	        String lineToCopy = "";
+	        
+	        while(line != null){
+	        	if(line.startsWith(segIDToCopyFrom)){
+	        		lineToCopy = line.substring(3, line.length()) + "\n" ;
+	        	}
+	        	line = inResult.readLine();
+	        }
+	        resultText = segIDToInsert + lineToCopy + resultText;
+			
+		}else{
+        resultText = segIDToInsert + "|" + "\n" + resultText ; 
+	} 
 		modifyRequest.setMessageFinal(resultText);
-	}
 
+	}
 }
