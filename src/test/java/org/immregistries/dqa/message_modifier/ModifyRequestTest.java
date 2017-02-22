@@ -369,8 +369,40 @@ public class ModifyRequestTest extends TestCase {
 							    "BHS|1|Wilson^Beckham^Marion^^^^L|MTH^Mother^HL70063|274 Simmingsen Cir^^Simplicity Pattern^MI^49121^USA^P|^PRN^PH^^^269^6751060";
         runTest(messageOriginal, modificationScript, messageFinal);
     }
-    
-    
+    {
+        String modificationScript = "for $PD1 call insertBefore(\"Segment Id\" => \"BHS\", \"copy values from\" => \"MSH\");";
+        String messageOriginal =    "PD1|||||||||||02^Reminder/Recall - any method^HL70215|N|20161204|||A|20161204|20161204\n" +
+								    "MSH|1|Wilson^Beckham^Marion^^^^L|MTH^Mother^HL70063|274 Simmingsen Cir^^Simplicity Pattern^MI^49121^USA^P|^PRN^PH^^^269^6751060\n" +
+								    "ORC|RE|AJ68O9.1^AIRA|BJ68O9.1^AIRA\n" +
+								    "RXA|0|1|20131204||94^MMRV^CVX|999|||01^Historical^NIP001|||||||||||CP|A\n" + 
+								    "ORC|RE|AJ68O9.2^AIRA|BJ68O9.2^AIRA\n" + 
+								    "RXA|0|1|20161204||94^MMRV^CVX|999|||01^Historical^NIP001|||||||||||CP|A";
+        String messageFinal =   "BHS|1|Wilson^Beckham^Marion^^^^L|MTH^Mother^HL70063|274 Simmingsen Cir^^Simplicity Pattern^MI^49121^USA^P|^PRN^PH^^^269^6751060\n" +
+        						"PD1|||||||||||02^Reminder/Recall - any method^HL70215|N|20161204|||A|20161204|20161204\n" +
+							    "MSH|1|Wilson^Beckham^Marion^^^^L|MTH^Mother^HL70063|274 Simmingsen Cir^^Simplicity Pattern^MI^49121^USA^P|^PRN^PH^^^269^6751060\n" +
+							    "ORC|RE|AJ68O9.1^AIRA|BJ68O9.1^AIRA\n" +
+							    "RXA|0|1|20131204||94^MMRV^CVX|999|||01^Historical^NIP001|||||||||||CP|A\n" + 
+							    "ORC|RE|AJ68O9.2^AIRA|BJ68O9.2^AIRA\n" + 
+							    "RXA|0|1|20161204||94^MMRV^CVX|999|||01^Historical^NIP001|||||||||||CP|A";
+        runTest(messageOriginal, modificationScript, messageFinal);
+    }
+    {
+        String modificationScript = "for $RXA[2] call insertAfter(\"Segment Id\" => \"BHS\", \"copy values from\" => \"MSH\");";        
+        String messageOriginal =    "PD1|||||||||||02^Reminder/Recall - any method^HL70215|N|20161204|||A|20161204|20161204\n" +
+								    "MSH|1|Wilson^Beckham^Marion^^^^L|MTH^Mother^HL70063|274 Simmingsen Cir^^Simplicity Pattern^MI^49121^USA^P|^PRN^PH^^^269^6751060\n" +
+								    "ORC|RE|AJ68O9.1^AIRA|BJ68O9.1^AIRA\n" +
+								    "RXA|0|1|20131204||94^MMRV^CVX|999|||01^Historical^NIP001|||||||||||CP|A\n" + 
+								    "ORC|RE|AJ68O9.2^AIRA|BJ68O9.2^AIRA\n" + 
+								    "RXA|0|1|20161204||94^MMRV^CVX|999|||01^Historical^NIP001|||||||||||CP|A";
+        String messageFinal =   "PD1|||||||||||02^Reminder/Recall - any method^HL70215|N|20161204|||A|20161204|20161204\n" +
+							    "MSH|1|Wilson^Beckham^Marion^^^^L|MTH^Mother^HL70063|274 Simmingsen Cir^^Simplicity Pattern^MI^49121^USA^P|^PRN^PH^^^269^6751060\n" +
+							    "ORC|RE|AJ68O9.1^AIRA|BJ68O9.1^AIRA\n" +
+							    "RXA|0|1|20131204||94^MMRV^CVX|999|||01^Historical^NIP001|||||||||||CP|A\n" + 
+							    "ORC|RE|AJ68O9.2^AIRA|BJ68O9.2^AIRA\n" + 
+							    "RXA|0|1|20161204||94^MMRV^CVX|999|||01^Historical^NIP001|||||||||||CP|A\n" +
+							    "BHS|1|Wilson^Beckham^Marion^^^^L|MTH^Mother^HL70063|274 Simmingsen Cir^^Simplicity Pattern^MI^49121^USA^P|^PRN^PH^^^269^6751060";
+        runTest(messageOriginal, modificationScript, messageFinal);
+    }
     {
         String modificationScript = "for $PID call insertAfter(\"Segment Id\" => \"PD1\", \"if missing\" => \"true\");";
         String messageOriginal = "PID|||Q63W1^^^AIRA-TEST^MR||Holmes^Jeramiah^Z^IV^^^L|Monroe^Arden|20160626|M|||155 Lewis Cir^^Cadmus^MI^49221^USA^P||^PRN^PH^^^517^3004208|";
