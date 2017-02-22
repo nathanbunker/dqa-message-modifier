@@ -14,11 +14,29 @@ public class InsertLastFunction implements CallFunction {
 		String resultText = modifyRequest.getMessageFinal();
 		ReferenceParsed targetReference = callCommand.getTargetReference();
 		
-		String segID = callCommand.getParameterMap().get("SEGMENT ID");
-        resultText = resultText + "\n"+ segID + "|" + "\n";    
-        
-        resultText = resultText.substring(0, resultText.length()-1);
+		String segIDToInsert = callCommand.getParameterMap().get("SEGMENT ID");
+		String segIDToCopyFrom = callCommand.getParameterMap().get("COPY VALUES FROM");
+		
+		 if(callCommand.getParameterMap().containsKey("COPY VALUES FROM")){
+			
+			BufferedReader inResult = new BufferedReader(new StringReader(resultText));
+	        String line = inResult.readLine();
+	        String lineToCopy = "";
+	        
+             while(line != null){
+	        	if(line.startsWith(segIDToCopyFrom)){
+	        		lineToCopy = line.substring(3, line.length()) + "\n" ;
+	        	}
+	        	line = inResult.readLine();
+	        }
+	        resultText = resultText + "\n" + segIDToInsert + lineToCopy ;
+			
+		}else{
+			resultText = resultText + "\n"+ segIDToInsert + "|" + "\n";    
+	} 
 		modifyRequest.setMessageFinal(resultText);
-	}
 
+	}
 }
+
+
